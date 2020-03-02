@@ -89,6 +89,10 @@ class ContainerController: UIViewController {
             present(navProfileViewController, animated: true, completion: nil)
         case .Signout:
             SignOutAlert()
+        case .Register:
+            let navRegisterRestaurantViewController = UINavigationController(rootViewController: RegisterRestaurantViewController())
+            navRegisterRestaurantViewController.modalPresentationStyle = .fullScreen
+            present(navRegisterRestaurantViewController, animated: true, completion: nil)
         }
         
     }

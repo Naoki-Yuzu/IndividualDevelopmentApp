@@ -20,7 +20,6 @@ class SignUpController: UIViewController {
         print("sign up controller..")
         view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = true
-        // Do any additional setup after loading the view.
 //        self.view.backgroundColor = .white
         view.addSubview(signUpView)
         signUpView.delegate = self

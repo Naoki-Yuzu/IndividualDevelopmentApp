@@ -13,6 +13,7 @@ class SideMenuTableView: UITableView {
     // MARK: - Init
     init(backgroundColor: UIColor, rowHeight: CGFloat) {
         super.init(frame: CGRect(), style: .plain)
+//        super.isScrollEnabled = false
         super.backgroundColor = backgroundColor
         super.rowHeight = rowHeight
         super.separatorStyle = .none
