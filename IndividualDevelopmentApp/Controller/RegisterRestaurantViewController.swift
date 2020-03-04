@@ -11,9 +11,12 @@ import UIKit
 class RegisterRestaurantViewController: UIViewController {
     
     // MARK: - Properties
+    let storeModel = RegisterStore()
     var registerRestaurantView: RegisterRestaurantView!
     var imageViewTapGesture: UITapGestureRecognizer!
     var editingTextView: UITextView?
+    var longitude = MapView.longitude
+    var latitude = MapView.latitude
     
     // MARK: - Helper Functions
     override func viewWillAppear(_ animated: Bool) {
@@ -53,8 +56,8 @@ class RegisterRestaurantViewController: UIViewController {
         
         navigationController?.navigationBar.isTranslucent = false
         navigationItem.title = "新規投稿"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "キャンセル", style: .plain, target: self, action: #selector(didCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "登録", style: .plain, target: self, action: #selector(didRegister))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "キャンセル", style: .plain, target: self, action: #selector(cancel))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "登録", style: .plain, target: self, action: #selector(register))
         
     }
     
@@ -94,12 +97,21 @@ class RegisterRestaurantViewController: UIViewController {
     }
     
     //MARK: - Selectors
-    @objc func didCancel() {
+    @objc func cancel() {
         dismiss(animated: true, completion: nil)
     }
     
-    @objc func didRegister() {
-        print("did register..")
+    @objc func register() {
+        print("register the store..")
+        if registerRestaurantView.storeNameTextField.text == "" || registerRestaurantView.impressionTextView.text == "" {
+            print("error")
+        } else {
+            guard let unwrappedLongitude = longitude, let unwrappedLatitude = latitude else { return }
+            storeModel.registerStrore(storeImage: registerRestaurantView.storeImage.image!, storeName: registerRestaurantView.storeNameTextField.text!, storeImpression: registerRestaurantView.impressionTextView.text, longitude: unwrappedLongitude, latitude: unwrappedLatitude) {
+                print("did finish..")
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     @objc func openPhotoLibrary() {

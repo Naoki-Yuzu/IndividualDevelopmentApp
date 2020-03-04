@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7B1C68716D0A3DCD93860B6A /* Pods_IndividualDevelopmentApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C13B1DFF7B0AE1A9B55866 /* Pods_IndividualDevelopmentApp.framework */; };
 		B04A1BAC240CDD8400E427B8 /* RegisterRestaurantScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04A1BAB240CDD8400E427B8 /* RegisterRestaurantScrollView.swift */; };
+		B04A1BB0240D400300E427B8 /* RegisterStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04A1BAF240D400300E427B8 /* RegisterStore.swift */; };
 		B062F1A4240A8B91005A8B3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B062F1A3240A8B91005A8B3C /* AppDelegate.swift */; };
 		B062F1A6240A8B91005A8B3C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B062F1A5240A8B91005A8B3C /* SceneDelegate.swift */; };
 		B062F1AB240A8B91005A8B3C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B062F1A9240A8B91005A8B3C /* Main.storyboard */; };
@@ -48,6 +49,7 @@
 		7468BC98198FB953264AB3B1 /* Pods-IndividualDevelopmentApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IndividualDevelopmentApp.release.xcconfig"; path = "Target Support Files/Pods-IndividualDevelopmentApp/Pods-IndividualDevelopmentApp.release.xcconfig"; sourceTree = "<group>"; };
 		95C13B1DFF7B0AE1A9B55866 /* Pods_IndividualDevelopmentApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IndividualDevelopmentApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B04A1BAB240CDD8400E427B8 /* RegisterRestaurantScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRestaurantScrollView.swift; sourceTree = "<group>"; };
+		B04A1BAF240D400300E427B8 /* RegisterStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterStore.swift; sourceTree = "<group>"; };
 		B062F1A0240A8B91005A8B3C /* IndividualDevelopmentApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IndividualDevelopmentApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B062F1A3240A8B91005A8B3C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B062F1A5240A8B91005A8B3C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				B062F1D5240AA75F005A8B3C /* SignUpView.swift */,
 				B0A67E9B240B607B006B5881 /* RegisterRestaurantView.swift */,
 				B04A1BAB240CDD8400E427B8 /* RegisterRestaurantScrollView.swift */,
+				B062F1D9240AA95C005A8B3C /* SideMenuOption.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -168,10 +171,10 @@
 			isa = PBXGroup;
 			children = (
 				B062F1D7240AA944005A8B3C /* LogInUser.swift */,
-				B062F1D9240AA95C005A8B3C /* SideMenuOption.swift */,
 				B062F1DB240AA970005A8B3C /* SignOutUser.swift */,
 				B062F1DD240AA97C005A8B3C /* SignUpUser.swift */,
 				B062F1DF240AAACC005A8B3C /* UserProfile.swift */,
+				B04A1BAF240D400300E427B8 /* RegisterStore.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 				B062F1E6240AABAB005A8B3C /* LogInController.swift in Sources */,
 				B062F1EE240AAC00005A8B3C /* SignUpController.swift in Sources */,
 				B062F1C4240AA5B4005A8B3C /* OriginalLabel.swift in Sources */,
+				B04A1BB0240D400300E427B8 /* RegisterStore.swift in Sources */,
 				B062F1DE240AA97C005A8B3C /* SignUpUser.swift in Sources */,
 				B062F1E4240AAB93005A8B3C /* ContainerController.swift in Sources */,
 				B062F1CC240AA6ED005A8B3C /* LogInView.swift in Sources */,

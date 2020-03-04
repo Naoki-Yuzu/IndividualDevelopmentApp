@@ -37,6 +37,7 @@ class ContainerController: UIViewController {
         let mapViewController = MapViewController()
         mapViewController.delegate = self
         navMapViewController = UINavigationController(rootViewController: mapViewController)
+        
         view.addSubview(navMapViewController.view)
         addChild(navMapViewController)
         navMapViewController.didMove(toParent: self)
@@ -90,7 +91,8 @@ class ContainerController: UIViewController {
         case .Signout:
             SignOutAlert()
         case .Register:
-            let navRegisterRestaurantViewController = UINavigationController(rootViewController: RegisterRestaurantViewController())
+            let registerRestaurantViewController = RegisterRestaurantViewController()
+            let navRegisterRestaurantViewController = UINavigationController(rootViewController: registerRestaurantViewController)
             navRegisterRestaurantViewController.modalPresentationStyle = .fullScreen
             present(navRegisterRestaurantViewController, animated: true, completion: nil)
         }
@@ -117,6 +119,7 @@ class ContainerController: UIViewController {
 // MARK: - Delegate
 extension ContainerController: MapViewControllerDelegate {
     
+    
     func showOrHideSideMenu() {
         print("came container controller..")
         
@@ -137,5 +140,7 @@ extension ContainerController: SideMenuControllerDelegate {
         hideSideMenu(sidMenuOption: sideMenuOption)
         isExpansion = false
     }
+    
+    
     
 }

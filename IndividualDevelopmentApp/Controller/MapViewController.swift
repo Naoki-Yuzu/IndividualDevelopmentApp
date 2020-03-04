@@ -15,7 +15,7 @@ protocol MapViewControllerDelegate {
 class MapViewController: UIViewController {
     
     // MARK: - Properties
-    var mapView: UIView!
+    var mapView: MapView!
     var delegate: MapViewControllerDelegate?
 
     // MARK: - Helper Functions
@@ -49,9 +49,11 @@ class MapViewController: UIViewController {
 
 extension MapViewController: MapViewDelegate {
     
+    
     func showOrHideSideMenu() {
         print("came map view controller..")
         delegate?.showOrHideSideMenu()
+
     }
     
 }
