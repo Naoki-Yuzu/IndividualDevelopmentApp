@@ -21,6 +21,8 @@ class MapView: UIView {
     var delegate: MapViewDelegate?
     var locationManager: CLLocationManager!
     let defaultLocation = CLLocation(latitude: 35.6809591, longitude: 139.7673068) // 東京駅
+    static var longitude: Double!
+    static var latitude: Double!
     
     // MARK: - Inits
     
@@ -108,11 +110,11 @@ extension MapView: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("did update locations")
         let location = locations.first
-        let latitude = location?.coordinate.latitude ?? 35.6809591 // nilだったら東京駅の緯度
-        let longitude = location?.coordinate.longitude ?? 139.7673068 // nilだったら東京駅の経度
-        print("latitude\(latitude)\nlongitude\(longitude)")
+        MapView.latitude = location?.coordinate.latitude
+        MapView.longitude = location?.coordinate.longitude
+        print("latitude\(MapView.latitude!)\nlongitude\(MapView.longitude!)")
         
-        let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: 15)
+        let camera = GMSCameraPosition.camera(withLatitude: MapView.latitude, longitude: MapView.longitude, zoom: 15)
         
         if mapView.isHidden {
             mapView.isHidden = false

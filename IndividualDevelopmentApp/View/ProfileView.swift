@@ -21,7 +21,7 @@ class ProfileView: UIView {
         super.init(frame: CGRect())
         print("did init profile view")
         
-        configureSubView()
+        configureSubView() // 57行目
     }
     
     required init?(coder: NSCoder) {
