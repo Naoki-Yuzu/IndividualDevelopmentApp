@@ -45,6 +45,7 @@
 		B0A67E9A240B6060006B5881 /* RegisterRestaurantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A67E99240B6060006B5881 /* RegisterRestaurantViewController.swift */; };
 		B0A67E9C240B607B006B5881 /* RegisterRestaurantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A67E9B240B607B006B5881 /* RegisterRestaurantView.swift */; };
 		B0CE0E2424109FBA00082456 /* OriginalLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CE0E2324109FBA00082456 /* OriginalLine.swift */; };
+		B0D9FA282410F52D00137F6C /* GetStoreInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D9FA272410F52D00137F6C /* GetStoreInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +91,7 @@
 		B0A67E99240B6060006B5881 /* RegisterRestaurantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRestaurantViewController.swift; sourceTree = "<group>"; };
 		B0A67E9B240B607B006B5881 /* RegisterRestaurantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRestaurantView.swift; sourceTree = "<group>"; };
 		B0CE0E2324109FBA00082456 /* OriginalLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginalLine.swift; sourceTree = "<group>"; };
+		B0D9FA272410F52D00137F6C /* GetStoreInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStoreInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +185,7 @@
 				B062F1DD240AA97C005A8B3C /* SignUpUser.swift */,
 				B062F1DF240AAACC005A8B3C /* UserProfile.swift */,
 				B04A1BAF240D400300E427B8 /* RegisterStore.swift */,
+				B0D9FA272410F52D00137F6C /* GetStoreInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				B04A1BB0240D400300E427B8 /* RegisterStore.swift in Sources */,
 				B062F1DE240AA97C005A8B3C /* SignUpUser.swift in Sources */,
 				B062F1E4240AAB93005A8B3C /* ContainerController.swift in Sources */,
+				B0D9FA282410F52D00137F6C /* GetStoreInfo.swift in Sources */,
 				B062F1CC240AA6ED005A8B3C /* LogInView.swift in Sources */,
 				B062F1CE240AA6F7005A8B3C /* MapView.swift in Sources */,
 				B062F1D6240AA75F005A8B3C /* SignUpView.swift in Sources */,

@@ -18,6 +18,7 @@ class MapViewController: UIViewController {
     // MARK: - Properties
     var mapView: MapView!
     var delegate: MapViewControllerDelegate?
+    var storeModel: GetStoreInfo!
 
     // MARK: - Helper Functions
     override func viewDidLoad() {
@@ -44,16 +45,31 @@ class MapViewController: UIViewController {
         view.addSubview(mapView)
         print("called configureUIView in MapViewController..")
             
-        configureMaker()
+        getStoresData()
         
     }
     
-    func configureMaker() {
+    func getStoresData() {
+        
+        print("start get stores data..")
+        storeModel = GetStoreInfo()
+        storeModel.getStoreInfo { (snapShot) in
+            for document in snapShot.documents {
+                print(document.data())
+                let storeData = document.data()
+                guard let latitude = storeData["latitude"] as? Double, let longitude = storeData["longitude"] as? Double, let storeName = storeData["storeName"] as? String else { return }
+                self.configureMakerInMap(latitude: latitude, longitude: longitude, storeName: storeName)
+            }
+        }
+        
+    }
+    
+    func configureMakerInMap(latitude: Double, longitude: Double, storeName: String) {
         
         print("configure maker..")
-        let position = CLLocationCoordinate2DMake(35.7020691, 139.7753269)
+        let position = CLLocationCoordinate2DMake(latitude, longitude)
         let marker = GMSMarker(position: position)
-        marker.title = "Tokyo"
+        marker.title = storeName
         marker.snippet = "Hell World!!"
         marker.map = mapView.mapView
         

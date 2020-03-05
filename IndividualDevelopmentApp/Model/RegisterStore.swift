@@ -17,7 +17,7 @@ class RegisterStore {
     var userId: String!
     lazy var storeImageFolder = storageRef.child("stores").child("\(userId!)")
     
-    // MARK: - Method
+    // MARK: - Methods
     func registerStrore(storeImage: UIImage, storeName: String, storeImpression: String, longitude: Double, latitude: Double, completion: @escaping () -> Void) {
         
         guard let user = Auth.auth().currentUser else { return }
@@ -50,7 +50,19 @@ class RegisterStore {
                 ])
                 */
                 
-                self.db.collection("Stores").document("\(self.userId!)").collection("store").document("\(storeName)").setData([
+//                self.db.collection("Stores").document("\(self.userId!)").collection("store").document("\(storeName)").setData([
+//                    "storeName": storeName,
+//                    "storeImage": url.absoluteString,
+//                    "storeImpression": storeImpression,
+//                    "longitude": longitude,
+//                    "latitude": latitude
+//                ], merge: true) { (error) in
+//                    guard error == nil else { return }
+//                    completion()
+//                }
+                
+                self.db.collection("Stores").document("\(storeName)").setData([
+                    "userId": self.userId!,
                     "storeName": storeName,
                     "storeImage": url.absoluteString,
                     "storeImpression": storeImpression,
@@ -60,6 +72,7 @@ class RegisterStore {
                     guard error == nil else { return }
                     completion()
                 }
+
                 
             }
             

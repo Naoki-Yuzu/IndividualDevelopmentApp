@@ -31,7 +31,7 @@ class StoreDetailViewController: UIViewController {
     
     func configureSubView() {
         storeDetailView = StoreDetailView()
-        storeDetailView.backgroundColor = UIColor(red: 189/255, green: 183/255, blue: 107/255, alpha: 1)
+        storeDetailView.backgroundColor = UIColor(red: 162/255, green: 99/255, blue: 24/255, alpha: 1)
         
         view.addSubview(storeDetailView)
     }
