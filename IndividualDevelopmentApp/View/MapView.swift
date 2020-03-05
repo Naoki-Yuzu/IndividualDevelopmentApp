@@ -64,6 +64,7 @@ class MapView: UIView {
         // GoogleMapの初期位置(仮で東京駅付近に設定)
         let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude, longitude: defaultLocation.coordinate.longitude, zoom: 15)
         mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        mapView.animate(toViewingAngle: 45)
         print("camera of map view \(mapView.camera)")
         mapView.isMyLocationEnabled = true
         self.addSubview(mapView)
