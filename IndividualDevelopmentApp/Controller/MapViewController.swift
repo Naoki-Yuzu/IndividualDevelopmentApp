@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMaps
 
 protocol MapViewControllerDelegate {
     func showOrHideSideMenu()
@@ -36,12 +37,25 @@ class MapViewController: UIViewController {
     }
     
     func configureMapView() {
-        
         let localMapview = MapView()
         localMapview.delegate = self
+        localMapview.mapView.delegate = self
         mapView = localMapview
         view.addSubview(mapView)
         print("called configureUIView in MapViewController..")
+            
+        configureMaker()
+        
+    }
+    
+    func configureMaker() {
+        
+        print("configure maker..")
+        let position = CLLocationCoordinate2DMake(35.7020691, 139.7753269)
+        let marker = GMSMarker(position: position)
+        marker.title = "Tokyo"
+        marker.snippet = "Hell World!!"
+        marker.map = mapView.mapView
         
     }
 
@@ -54,6 +68,17 @@ extension MapViewController: MapViewDelegate {
         print("came map view controller..")
         delegate?.showOrHideSideMenu()
 
+    }
+    
+}
+
+extension MapViewController: GMSMapViewDelegate {
+    
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        let navStoreDetailViewController = UINavigationController(rootViewController: StoreDetailViewController())
+        navStoreDetailViewController.modalPresentationStyle = .fullScreen
+        present(navStoreDetailViewController, animated: true, completion: nil)
+        print("did tap info window of maker..")
     }
     
 }

@@ -10,6 +10,8 @@
 		7B1C68716D0A3DCD93860B6A /* Pods_IndividualDevelopmentApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C13B1DFF7B0AE1A9B55866 /* Pods_IndividualDevelopmentApp.framework */; };
 		B04A1BAC240CDD8400E427B8 /* RegisterRestaurantScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04A1BAB240CDD8400E427B8 /* RegisterRestaurantScrollView.swift */; };
 		B04A1BB0240D400300E427B8 /* RegisterStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04A1BAF240D400300E427B8 /* RegisterStore.swift */; };
+		B0624EA0240F8F3300FF6A3A /* StoreDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0624E9F240F8F3300FF6A3A /* StoreDetailViewController.swift */; };
+		B0624EA2240F8F8400FF6A3A /* StoreDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0624EA1240F8F8400FF6A3A /* StoreDetailView.swift */; };
 		B062F1A4240A8B91005A8B3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B062F1A3240A8B91005A8B3C /* AppDelegate.swift */; };
 		B062F1A6240A8B91005A8B3C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B062F1A5240A8B91005A8B3C /* SceneDelegate.swift */; };
 		B062F1AB240A8B91005A8B3C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B062F1A9240A8B91005A8B3C /* Main.storyboard */; };
@@ -42,6 +44,7 @@
 		B062F1EE240AAC00005A8B3C /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B062F1ED240AAC00005A8B3C /* SignUpController.swift */; };
 		B0A67E9A240B6060006B5881 /* RegisterRestaurantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A67E99240B6060006B5881 /* RegisterRestaurantViewController.swift */; };
 		B0A67E9C240B607B006B5881 /* RegisterRestaurantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A67E9B240B607B006B5881 /* RegisterRestaurantView.swift */; };
+		B0CE0E2424109FBA00082456 /* OriginalLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CE0E2324109FBA00082456 /* OriginalLine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +53,8 @@
 		95C13B1DFF7B0AE1A9B55866 /* Pods_IndividualDevelopmentApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IndividualDevelopmentApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B04A1BAB240CDD8400E427B8 /* RegisterRestaurantScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRestaurantScrollView.swift; sourceTree = "<group>"; };
 		B04A1BAF240D400300E427B8 /* RegisterStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterStore.swift; sourceTree = "<group>"; };
+		B0624E9F240F8F3300FF6A3A /* StoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailViewController.swift; sourceTree = "<group>"; };
+		B0624EA1240F8F8400FF6A3A /* StoreDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailView.swift; sourceTree = "<group>"; };
 		B062F1A0240A8B91005A8B3C /* IndividualDevelopmentApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IndividualDevelopmentApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B062F1A3240A8B91005A8B3C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B062F1A5240A8B91005A8B3C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +89,7 @@
 		B062F1ED240AAC00005A8B3C /* SignUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpController.swift; sourceTree = "<group>"; };
 		B0A67E99240B6060006B5881 /* RegisterRestaurantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRestaurantViewController.swift; sourceTree = "<group>"; };
 		B0A67E9B240B607B006B5881 /* RegisterRestaurantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRestaurantView.swift; sourceTree = "<group>"; };
+		B0CE0E2324109FBA00082456 /* OriginalLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginalLine.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +151,7 @@
 				B062F1EB240AABF1005A8B3C /* SideMenuController.swift */,
 				B062F1ED240AAC00005A8B3C /* SignUpController.swift */,
 				B0A67E99240B6060006B5881 /* RegisterRestaurantViewController.swift */,
+				B0624E9F240F8F3300FF6A3A /* StoreDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -163,6 +170,7 @@
 				B0A67E9B240B607B006B5881 /* RegisterRestaurantView.swift */,
 				B04A1BAB240CDD8400E427B8 /* RegisterRestaurantScrollView.swift */,
 				B062F1D9240AA95C005A8B3C /* SideMenuOption.swift */,
+				B0624EA1240F8F8400FF6A3A /* StoreDetailView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -186,6 +194,7 @@
 				B062F1C5240AA5F7005A8B3C /* OriginalButton.swift */,
 				B062F1C7240AA68A005A8B3C /* OriginalImageView.swift */,
 				B062F1C9240AA6AD005A8B3C /* OriginalTextField.swift */,
+				B0CE0E2324109FBA00082456 /* OriginalLine.swift */,
 			);
 			path = OriginalUIComponents;
 			sourceTree = "<group>";
@@ -346,11 +355,14 @@
 				B0A67E9A240B6060006B5881 /* RegisterRestaurantViewController.swift in Sources */,
 				B04A1BAC240CDD8400E427B8 /* RegisterRestaurantScrollView.swift in Sources */,
 				B062F1C6240AA5F7005A8B3C /* OriginalButton.swift in Sources */,
+				B0624EA0240F8F3300FF6A3A /* StoreDetailViewController.swift in Sources */,
 				B062F1DA240AA95C005A8B3C /* SideMenuOption.swift in Sources */,
 				B062F1D2240AA738005A8B3C /* SideMenuOptionCell.swift in Sources */,
 				B062F1D8240AA944005A8B3C /* LogInUser.swift in Sources */,
 				B062F1A4240A8B91005A8B3C /* AppDelegate.swift in Sources */,
+				B0CE0E2424109FBA00082456 /* OriginalLine.swift in Sources */,
 				B062F1EA240AABE1005A8B3C /* ProfileViewController.swift in Sources */,
+				B0624EA2240F8F8400FF6A3A /* StoreDetailView.swift in Sources */,
 				B062F1C8240AA68A005A8B3C /* OriginalImageView.swift in Sources */,
 				B062F1D4240AA751005A8B3C /* SideMenuTableView.swift in Sources */,
 				B062F1A6240A8B91005A8B3C /* SceneDelegate.swift in Sources */,
