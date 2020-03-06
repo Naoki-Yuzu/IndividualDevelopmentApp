@@ -1,1 +1,1 @@
-# IndividualDevelopmentApp
+# 個人開発アプリ
