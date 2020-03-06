@@ -1,3 +1,13 @@
-# Share your favorite restaurants App
+# Share your favorite restaurants
 
-## Overview
+## アプリの概要
+
+**あなたのお気に入りのレストランを他のユーザーと共有することができます。**
+
+## アプリの機能一覧
+
+- [x] メールアドレスでのサインアップ・サインイン機能
+- [x] ユーザーのプロフィール機能
+- [x] オススメのレストラン投稿機能
+
+
