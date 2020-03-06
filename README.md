@@ -1,1 +1,3 @@
-# 個人開発アプリ
+# Share your favorite restaurants App
+
+## Overview
