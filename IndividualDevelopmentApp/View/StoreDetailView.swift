@@ -14,6 +14,9 @@ class StoreDetailView: UIView {
     var splitView: UIView!
     var splitView2: UIView!
     var postUserView: UIView!
+    var postUserLabel: OriginalLabel!
+    var postUserIcon: OriginalImageView!
+    var postUserName: OriginalLabel!
     var scrollView: UIScrollView!
     var line: OriginalLine!
     var line2: OriginalLine!
@@ -53,6 +56,12 @@ class StoreDetailView: UIView {
         line2.frame = CGRect(x: scrollView.bounds.width * 0.05, y: storeNameLabel.bounds.height + line.bounds.height + storeImageView.bounds.height + 60, width: scrollView.bounds.width * 0.9, height: 0.7)
         
         postUserView.frame = CGRect(x: scrollView.bounds.width * 0.1, y: storeNameLabel.bounds.height + line.bounds.height + storeImageView.bounds.height + line2.bounds.height + 80, width: scrollView.bounds.width * 0.8, height: 100)
+        
+        postUserLabel.frame = CGRect(x: postUserView.bounds.width * 0.1, y: postUserView.bounds.origin.y + 5, width: postUserView.bounds.width * 0.8, height: 20)
+        
+        postUserIcon.frame = CGRect(x: postUserView.bounds.width * 0.1, y: postUserView.bounds.origin.y + postUserLabel.bounds.height + 15, width: 60, height: 60)
+        
+        postUserName.frame = CGRect(x: postUserView.bounds.width * 0.1 + postUserIcon.bounds.width + 10, y: postUserView.bounds.origin.y + postUserLabel.bounds.height + 15, width: postUserView.bounds.width * 0.8 - postUserIcon.bounds.width, height: 60)
         
         line4.frame = CGRect(x: scrollView.bounds.width * 0.05, y: storeNameLabel.bounds.height + line.bounds.height + storeImageView.bounds.height + postUserView.bounds.height + 100, width: scrollView.bounds.width * 0.9, height: 0.7)
         
@@ -99,7 +108,15 @@ class StoreDetailView: UIView {
         storeImageView.contentMode = .scaleAspectFit
         
         postUserView = UIView()
-        postUserView.backgroundColor = .red
+        
+        postUserLabel = OriginalLabel(textOfLabel: "投稿したユーザー", textColor: .black, fontAndSize: .boldSystemFont(ofSize: 15))
+        
+        postUserIcon = OriginalImageView(withImage: UIImage(named: "no_image_icon")!, cornerRadius: 30)
+        postUserIcon.contentMode = .scaleAspectFit
+        
+        postUserName = OriginalLabel(textOfLabel: "", textColor: .black, fontAndSize: .boldSystemFont(ofSize: 20))
+        postUserName.textAlignment = .center
+        postUserName.adjustsFontSizeToFitWidth = true
         
         splitView2 = UIView()
         splitView2.backgroundColor = .white
@@ -138,6 +155,9 @@ class StoreDetailView: UIView {
         scrollView.addSubview(storeImageView)
         scrollView.addSubview(line2)
         scrollView.addSubview(postUserView)
+        postUserView.addSubview(postUserLabel)
+        postUserView.addSubview(postUserIcon)
+        postUserView.addSubview(postUserName)
         scrollView.addSubview(line4)
         scrollView.addSubview(splitView2)
         splitView2.addSubview(storeImpresstionTitleLabel)

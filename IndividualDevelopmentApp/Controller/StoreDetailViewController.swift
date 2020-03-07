@@ -52,16 +52,20 @@ class StoreDetailViewController: UIViewController {
     func configureSubView() {
         storeDetailView = StoreDetailView()
         storeDetailView.backgroundColor = UIColor(red: 162/255, green: 99/255, blue: 24/255, alpha: 1)
-        let url = URL(string: storeImage)
+        let storeImageURL = URL(string: storeImage)
+        let userIconURL = URL(string: poustUserIcon)
         do {
-            let data = try Data(contentsOf: url!)
-            self.storeDetailView.storeImageView.image = UIImage(data: data)
+            let storeImageData = try Data(contentsOf: storeImageURL!)
+            let userIconData = try Data(contentsOf: userIconURL!)
+            self.storeDetailView.storeImageView.image = UIImage(data: storeImageData)
+            self.storeDetailView.postUserIcon.image = UIImage(data: userIconData)
             print("did set user image from database..")
         } catch _ {
             print("error..")
         }
         storeDetailView.storeNameLabel.text = self.storeName
         storeDetailView.storeImpresstionLabel.text = self.storeReview
+        storeDetailView.postUserName.text = self.postUserName
         
         view.addSubview(storeDetailView)
     }
