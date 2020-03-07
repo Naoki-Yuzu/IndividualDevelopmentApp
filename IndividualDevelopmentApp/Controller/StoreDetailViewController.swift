@@ -12,16 +12,20 @@ class StoreDetailViewController: UIViewController {
     
     //MARK: - Properties
     var storeDetailView: StoreDetailView!
+    var postUserName: String!
+    var poustUserIcon: String!
     var storeName: String!
     var storeReview: String!
     var storeImage: String!
     var count: Int!
     
-    init(storeName: String, storeReview: String, storeImage: String, count: Int) {
+    init(storeName: String, storeReview: String, storeImage: String, postUserName: String, postUserIcon: String, count: Int) {
         super.init(nibName: nil, bundle: nil)
         self.storeName = storeName
         self.storeReview = storeReview
         self.storeImage = storeImage
+        self.postUserName = postUserName
+        self.poustUserIcon = postUserIcon
         self.count = count
     }
     
