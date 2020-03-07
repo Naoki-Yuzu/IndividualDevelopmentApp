@@ -21,10 +21,7 @@ class MapViewController: UIViewController {
     var storeModel: GetStoreInfo!
     var storeDetailViewControllers: [StoreDetailViewController] = []
     var count = 0
-    var storeName = [String?]()
-    var storeIamge = [String?]()
-    var storeReview = [String?]()
-
+    
     // MARK: - Helper Functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,9 +60,6 @@ class MapViewController: UIViewController {
                 print(document.data())
                 let storeData = document.data()
                 guard let latitude = storeData["latitude"] as? Double, let longitude = storeData["longitude"] as? Double, let storeName = storeData["storeName"] as? String, let storeImage = storeData["storeImage"] as? String, let storeReview = storeData["storeImpression"] as? String else { return }
-//                self.storeName.append(storeName)
-//                self.storeIamge.append(storeImage)
-//                self.storeReview.append(storeReview)
                 self.configureMakerInMap(latitude: latitude, longitude: longitude, storeName: storeName, count: self.count, storename: storeName, storeReview: storeReview, storeImage: storeImage)
                 self.count += 1
             }
@@ -76,13 +70,20 @@ class MapViewController: UIViewController {
     func configureMakerInMap(latitude: Double, longitude: Double, storeName: String, count: Int, storename: String, storeReview: String, storeImage: String) {
         
         print("configure maker..")
-        storeDetailViewControllers.append(StoreDetailViewController(storeName: storeName, storeReview: storeReview, storeImage: storeImage, count: count))
         let position = CLLocationCoordinate2DMake(latitude, longitude)
         let marker = GMSMarker(position: position)
         marker.title = storeName
-        marker.snippet = "Hell World!!"
         marker.identifier = count
         marker.map = mapView.mapView
+        
+        
+        configureViewController(storeName: storeName, storeReview: storeReview, storeImage: storeImage, count: count)
+        
+    }
+    
+    func configureViewController(storeName: String, storeReview: String, storeImage: String, count: Int) {
+        
+        storeDetailViewControllers.append(StoreDetailViewController(storeName: storeName, storeReview: storeReview, storeImage: storeImage, count: count))
         
     }
 
