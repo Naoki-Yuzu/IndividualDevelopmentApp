@@ -19,6 +19,11 @@ class MapViewController: UIViewController {
     var mapView: MapView!
     var delegate: MapViewControllerDelegate?
     var storeModel: GetStoreInfo!
+    var storeDetailViewControllers: [StoreDetailViewController] = []
+    var count = 0
+    var storeName = [String?]()
+    var storeIamge = [String?]()
+    var storeReview = [String?]()
 
     // MARK: - Helper Functions
     override func viewDidLoad() {
@@ -57,20 +62,26 @@ class MapViewController: UIViewController {
             for document in snapShot.documents {
                 print(document.data())
                 let storeData = document.data()
-                guard let latitude = storeData["latitude"] as? Double, let longitude = storeData["longitude"] as? Double, let storeName = storeData["storeName"] as? String else { return }
-                self.configureMakerInMap(latitude: latitude, longitude: longitude, storeName: storeName)
+                guard let latitude = storeData["latitude"] as? Double, let longitude = storeData["longitude"] as? Double, let storeName = storeData["storeName"] as? String, let storeImage = storeData["storeImage"] as? String, let storeReview = storeData["storeImpression"] as? String else { return }
+//                self.storeName.append(storeName)
+//                self.storeIamge.append(storeImage)
+//                self.storeReview.append(storeReview)
+                self.configureMakerInMap(latitude: latitude, longitude: longitude, storeName: storeName, count: self.count, storename: storeName, storeReview: storeReview, storeImage: storeImage)
+                self.count += 1
             }
         }
         
     }
     
-    func configureMakerInMap(latitude: Double, longitude: Double, storeName: String) {
+    func configureMakerInMap(latitude: Double, longitude: Double, storeName: String, count: Int, storename: String, storeReview: String, storeImage: String) {
         
         print("configure maker..")
+        storeDetailViewControllers.append(StoreDetailViewController(storeName: storeName, storeReview: storeReview, storeImage: storeImage, count: count))
         let position = CLLocationCoordinate2DMake(latitude, longitude)
         let marker = GMSMarker(position: position)
         marker.title = storeName
         marker.snippet = "Hell World!!"
+        marker.identifier = count
         marker.map = mapView.mapView
         
     }
@@ -91,10 +102,22 @@ extension MapViewController: MapViewDelegate {
 extension MapViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        let navStoreDetailViewController = UINavigationController(rootViewController: StoreDetailViewController())
+        let navStoreDetailViewController = UINavigationController(rootViewController: storeDetailViewControllers[marker.identifier])
         navStoreDetailViewController.modalPresentationStyle = .fullScreen
         present(navStoreDetailViewController, animated: true, completion: nil)
         print("did tap info window of maker..")
     }
     
+}
+
+extension GMSMarker {
+    var identifier: Int {
+        set(identifier) {
+            self.userData = identifier
+        }
+
+        get {
+           return self.userData as! Int
+       }
+   }
 }
