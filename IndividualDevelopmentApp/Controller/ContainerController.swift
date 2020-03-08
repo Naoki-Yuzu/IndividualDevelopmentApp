@@ -70,14 +70,14 @@ class ContainerController: UIViewController {
         }
     }
     
-    func hideSideMenu(sidMenuOption: SideMenuOption) {
+    func hideSideMenu(sideMenuOption: SideMenuOption) {
         
         print("hide menu..")
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             self.navMapViewController.view.frame.origin.x = 0
         }) { (_) in
             // 引数は使用しないのため_でok
-            self.didSelectSideMenuOption(sideMenuOption: sidMenuOption)
+            self.didSelectSideMenuOption(sideMenuOption: sideMenuOption)
         }
         
     }
@@ -119,6 +119,10 @@ class ContainerController: UIViewController {
 // MARK: - Delegate
 extension ContainerController: MapViewControllerDelegate {
     
+    func hideMenu() {
+        isExpansion = !isExpansion
+        showSideMenu(shouldExpand: isExpansion)
+    }
     
     func showOrHideSideMenu() {
         print("came container controller..")
@@ -137,7 +141,7 @@ extension ContainerController: MapViewControllerDelegate {
 extension ContainerController: SideMenuControllerDelegate {
     
     func hideSideMenu(forSideMenuOption sideMenuOption: SideMenuOption) {
-        hideSideMenu(sidMenuOption: sideMenuOption)
+        hideSideMenu(sideMenuOption: sideMenuOption)
         isExpansion = false
     }
     

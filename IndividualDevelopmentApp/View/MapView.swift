@@ -39,19 +39,6 @@ class MapView: UIView {
     
     // MARK: - Helper Functions
     
-    override func updateConstraints() {
-        super.updateConstraints()
-        print("map view auto layout..")
-        
-        mapView.translatesAutoresizingMaskIntoConstraints = false
-        
-        mapView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        mapView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        mapView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        mapView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        
-    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -62,11 +49,12 @@ class MapView: UIView {
     private func configureMap() {
         print("set up map..")
         // GoogleMapの初期位置(仮で東京駅付近に設定)
-        let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude, longitude: defaultLocation.coordinate.longitude, zoom: 15)
+        let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude, longitude: defaultLocation.coordinate.longitude, zoom: 16)
         mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
-        mapView.animate(toViewingAngle: 45)
+        mapView.animate(toViewingAngle: 65)
         print("camera of map view \(mapView.camera)")
         mapView.isMyLocationEnabled = true
+        mapView.settings.myLocationButton = true
         self.addSubview(mapView)
         mapView.isHidden = true
         
@@ -88,6 +76,8 @@ class MapView: UIView {
     private func configureSideMenuButton() {
         
         sideMenuButton = UIButton()
+        sideMenuButton.isUserInteractionEnabled = true
+        print(sideMenuButton as Any)
         sideMenuButton.setImage(UIImage(named: "hamburger-icon"), for: .normal)
         sideMenuButton.imageView?.contentMode = .scaleAspectFill
         sideMenuButton.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 240/255, alpha: 0.8)
@@ -115,7 +105,7 @@ extension MapView: CLLocationManagerDelegate {
         MapView.longitude = location?.coordinate.longitude
         print("latitude\(MapView.latitude!)\nlongitude\(MapView.longitude!)")
         
-        let camera = GMSCameraPosition.camera(withLatitude: MapView.latitude, longitude: MapView.longitude, zoom: 15)
+        let camera = GMSCameraPosition.camera(withLatitude: MapView.latitude, longitude: MapView.longitude, zoom: 16)
         
         if mapView.isHidden {
             mapView.isHidden = false

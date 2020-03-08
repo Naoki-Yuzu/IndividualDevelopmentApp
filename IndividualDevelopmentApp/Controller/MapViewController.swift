@@ -11,6 +11,8 @@ import GoogleMaps
 
 protocol MapViewControllerDelegate {
     func showOrHideSideMenu()
+    
+    func hideMenu()
 }
 
 class MapViewController: UIViewController {
@@ -21,6 +23,7 @@ class MapViewController: UIViewController {
     var storeModel: GetStoreInfo!
     var storeDetailViewControllers: [StoreDetailViewController] = []
     var count = 0
+    var viewTapGesture: UITapGestureRecognizer!
     
     // MARK: - Helper Functions
     override func viewDidLoad() {
@@ -45,9 +48,25 @@ class MapViewController: UIViewController {
         localMapview.mapView.delegate = self
         mapView = localMapview
         view.addSubview(mapView)
+        view.isUserInteractionEnabled = true
         print("called configureUIView in MapViewController..")
             
         getStoresData()
+        
+    }
+    
+    func configureViewTapGesture() {
+        
+        print("configure view tap gesture")
+        mapView.isUserInteractionEnabled = false
+        viewTapGesture = UITapGestureRecognizer(target: self, action: #selector(hideSideMenu))
+//        viewTapGesture.delegate = self
+//        mapView.mapView.addSubview(clearView)
+//        mapView.mapView.subviews[0].isUserInteractionEnabled = true
+        view.addGestureRecognizer(viewTapGesture)
+//        self.mapView.mapView.subviews[0].addGestureRecognizer(viewTapGesture)
+//        print(mapView.mapView.subviews[0])
+        
         
     }
     
@@ -90,6 +109,11 @@ class MapViewController: UIViewController {
         storeDetailViewControllers.append(StoreDetailViewController(storeName: storeName, storeReview: storeReview, storeImage: storeImage, postUserName: postUserName,  postUserIcon: postUserIcon,count: count))
         
     }
+    
+    // MARK: Selectors
+    @objc func hideSideMenu() {
+        delegate?.hideMenu()
+    }
 
 }
 
@@ -113,6 +137,7 @@ extension MapViewController: MapViewDelegate {
     func showOrHideSideMenu() {
         print("came map view controller..")
         delegate?.showOrHideSideMenu()
+        configureViewTapGesture()
 
     }
     
@@ -125,6 +150,10 @@ extension MapViewController: GMSMapViewDelegate {
         navStoreDetailViewController.modalPresentationStyle = .fullScreen
         present(navStoreDetailViewController, animated: true, completion: nil)
         print("did tap info window of maker..")
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        return false
     }
     
 }
