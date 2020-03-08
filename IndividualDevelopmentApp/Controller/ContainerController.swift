@@ -13,6 +13,7 @@ class ContainerController: UIViewController {
     // MARK: - Properties
     var navMapViewController: UIViewController!
     var sideMenuController: UIViewController!
+    var mapViewController: MapViewController!
     var isExpansion = false
     let signOutUser = SignOutUser()
     
@@ -34,7 +35,7 @@ class ContainerController: UIViewController {
     func configureMapViewController() {
         
         print("configure map view controller..")
-        let mapViewController = MapViewController()
+        mapViewController = MapViewController()
         mapViewController.delegate = self
         navMapViewController = UINavigationController(rootViewController: mapViewController)
         
@@ -120,6 +121,8 @@ class ContainerController: UIViewController {
 extension ContainerController: MapViewControllerDelegate {
     
     func hideMenu() {
+        mapViewController.mapView.isUserInteractionEnabled = true
+        mapViewController.view.isUserInteractionEnabled = true
         isExpansion = !isExpansion
         showSideMenu(shouldExpand: isExpansion)
     }

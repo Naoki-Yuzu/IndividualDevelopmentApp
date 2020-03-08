@@ -13,19 +13,17 @@ class SignUpController: UIViewController {
     // MARK: - Properties
     let signUpView = SignUpView()
     let signUpUserModel = SignUpUser()
-//    var mapView = MapView()
+    var activityIndicatorView: UIActivityIndicatorView!
+    
     // MARK: - Helper Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         print("sign up controller..")
         view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = true
-//        self.view.backgroundColor = .white
         view.addSubview(signUpView)
         signUpView.delegate = self
-//        self.view.addSubview(mapView)
-//        mapView.delegate = self
-//        configureSideMenuController()
+        configureIndicatorView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -34,53 +32,16 @@ class SignUpController: UIViewController {
         signUpView.frame = CGRect(x: view.safeAreaInsets.left, y: view.safeAreaInsets.top, width: view.frame.size.width - view.safeAreaInsets.left - view.safeAreaInsets.right, height: view.frame.size.height - view.safeAreaInsets.bottom - view.safeAreaInsets.top)
     }
     
-//    func configureSideMenuController() {
-//        if sideMenuController == nil {
-//
-//            sideMenuController = SideMenuController()
-////            view.insertSubview(sideMenuController.view, at: 0)
-//            view.addSubview(sideMenuController.view)
-////            view.insertSubview(sideMenuController.view, aboveSubview: mapView)
-////            view.addSubview(sideMenuController.view)
-//            addChild(sideMenuController)
-//            sideMenuController.didMove(toParent: self)
-//            print("Did add menu controller..")
-//
-//        }
+    func configureIndicatorView() {
         
-        /*
-        let sideMenuController = SideMenuController()
+        activityIndicatorView = UIActivityIndicatorView()
+        activityIndicatorView.hidesWhenStopped = true
+        activityIndicatorView.center = view.center
+        activityIndicatorView.style = .large
+        activityIndicatorView.color = UIColor(red: 44/255, green: 169/255, blue: 225/255, alpha: 1)
+        view.addSubview(activityIndicatorView)
         
-        view.addSubview(sideMenuController.view)
-        addChild(sideMenuController)
-        sideMenuController.didMove(toParent: self)
-        */
-//    }
-//
-//    func showSideMenuController(shoulExpand: Bool) {
-//
-//        if shoulExpand {
-//
-//            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
-//
-//                self.sideMenuController.view.frame.origin.x = self.sideMenuController.view.frame.width - 500
-//                self.mapView.frame.origin.x = self.sideMenuController.view.frame.width - 500
-////                self.mapView.frame.origin.x = self.sideMenuController.view.frame.width - 500
-//
-//            }, completion: nil)
-//
-//        } else {
-//
-//            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
-//
-//                self.sideMenuController.view.frame.origin.x = 0
-////                self.mapView.frame.origin.x = 0
-//
-//            }, completion: nil)
-//
-//        }
-//
-//    }
+    }
 
 }
 
@@ -101,26 +62,25 @@ extension SignUpController: SignUpViewDelegate {
     
     func signUpUser(withEmail email: String, password: String) {
         
+        activityIndicatorView.startAnimating()
         print("while sign up")
         // パターン1 トレイリングクロージャ使う
-        signUpUserModel.signUpUser(withEmail: email, password: password, errorMessage: { (message) in
-            UIViewController.noticeAlert(viewController: self, alertTitle: "メッセージ", alertMessage: message)
+        signUpUserModel.signUpUser(withEmail: email, password: password, errorMessage: { (errorMessage) in
+            self.activityIndicatorView.stopAnimating()
+            UIViewController.noticeAlert(viewController: self, alertTitle: "メッセージ", alertMessage: errorMessage)
+            self.signUpView.toggleLoginViewButton.isEnabled = true
+            self.signUpView.registerButton.isEnabled = true
         }) {
             self.signUpUserModel.sendEmail() {
         
             print("sent email..")
+                self.activityIndicatorView.stopAnimating()
             self.navigationController?.pushViewController(ConfirmEmailController(), animated: true)
-        }
-//        signUpUserModel.signUpUser(withEmail: email, password: password) {
-//            self.signUpUserModel.sendEmail() {
-//
-//                print("sent email..")
-//                self.navigationController?.pushViewController(ConfirmEmailController(), animated: true)
-//
+                self.signUpView.toggleLoginViewButton.isEnabled = true
+                self.signUpView.registerButton.isEnabled = true
             }
         }
-        
-     
+    }
         
         /* パターン2 トレイリングクロージャ使わない
         signUpUserModel.signUpUser(withEmail: email, password: password, completion: {self.dismiss(animated: true, completion: nil)})

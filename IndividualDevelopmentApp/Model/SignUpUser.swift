@@ -60,11 +60,22 @@ class SignUpUser {
     }
     
     // 本人確認用のメールを再送信するメソッド
-    func resendEmail(completion: @escaping () -> Void) {
+    func resendEmail(errorMessage: @escaping (String) -> Void ,completion: @escaping () -> Void) {
         
         Auth.auth().currentUser?.sendEmailVerification(completion: { (error) in
             if error != nil {
                 print(error!.localizedDescription)
+                if let errCode = AuthErrorCode(rawValue: error!._code) {
+                    print(errCode.rawValue)
+                    switch errCode {
+                    case .userNotFound:
+                        errorMessage("ユーザーアカウントが見つかりません")
+                        print("ユーザーアカウントが見つかりません")
+                        break
+                    default:
+                        break
+                    }
+                }
             } else {
                 print("sent email..")
                 completion()

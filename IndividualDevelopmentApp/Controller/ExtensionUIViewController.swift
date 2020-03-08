@@ -1,5 +1,5 @@
 //
-//  AlertController.swift
+//  ExtensionUIViewController.swift
 //  IndividualDevelopmentApp
 //
 //  Created by デュフフくん on 2020/03/08.

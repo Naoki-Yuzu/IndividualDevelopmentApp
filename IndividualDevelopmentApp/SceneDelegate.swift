@@ -22,14 +22,40 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if Auth.auth().currentUser != nil {
                     
-                    print("exists user..")
+            print("exists user..")
+            if Auth.auth().currentUser!.isEmailVerified {
+                
+                    print("is email verified")
                     window = UIWindow(windowScene: scene)
                     let navContainerController = UINavigationController(rootViewController: ContainerController())
                     window?.rootViewController = navContainerController
                     window?.makeKeyAndVisible()
-                    
-                    
+                
                 } else {
+                
+                    print("is not email verified")
+                    do {
+                    
+                        try Auth.auth().signOut()
+                        print("compulsion sign out..")
+                        print("scene delegate..")
+
+                        window = UIWindow(windowScene: scene)
+                        let signUpNavigationController = UINavigationController(rootViewController: SignUpController())
+                        window?.rootViewController = signUpNavigationController
+                        window?.makeKeyAndVisible()
+                    
+                    
+                    } catch let error {
+                    
+                        print(error.localizedDescription)
+                    
+                    }
+                
+                }
+                    
+                    
+            } else {
                     
                     print("no user..")
                     window = UIWindow(windowScene: scene)

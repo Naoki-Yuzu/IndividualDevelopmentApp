@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		7B1C68716D0A3DCD93860B6A /* Pods_IndividualDevelopmentApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C13B1DFF7B0AE1A9B55866 /* Pods_IndividualDevelopmentApp.framework */; };
-		B0470CC124148B1B0012E7E8 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0470CC024148B1B0012E7E8 /* AlertController.swift */; };
+		B0470CC124148B1B0012E7E8 /* ExtensionUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0470CC024148B1B0012E7E8 /* ExtensionUIViewController.swift */; };
+		B0470CC32414C2AA0012E7E8 /* ConfirmEmailViewInLogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0470CC22414C2AA0012E7E8 /* ConfirmEmailViewInLogIn.swift */; };
+		B0470CC52414C3B30012E7E8 /* ConfirmEmailViewControllerInLogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0470CC42414C3B30012E7E8 /* ConfirmEmailViewControllerInLogIn.swift */; };
 		B04A1BAC240CDD8400E427B8 /* RegisterRestaurantScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04A1BAB240CDD8400E427B8 /* RegisterRestaurantScrollView.swift */; };
 		B04A1BB0240D400300E427B8 /* RegisterStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04A1BAF240D400300E427B8 /* RegisterStore.swift */; };
 		B0624EA0240F8F3300FF6A3A /* StoreDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0624E9F240F8F3300FF6A3A /* StoreDetailViewController.swift */; };
@@ -53,7 +55,9 @@
 		1F7CDBA8BC139525A3B470F0 /* Pods-IndividualDevelopmentApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IndividualDevelopmentApp.debug.xcconfig"; path = "Target Support Files/Pods-IndividualDevelopmentApp/Pods-IndividualDevelopmentApp.debug.xcconfig"; sourceTree = "<group>"; };
 		7468BC98198FB953264AB3B1 /* Pods-IndividualDevelopmentApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IndividualDevelopmentApp.release.xcconfig"; path = "Target Support Files/Pods-IndividualDevelopmentApp/Pods-IndividualDevelopmentApp.release.xcconfig"; sourceTree = "<group>"; };
 		95C13B1DFF7B0AE1A9B55866 /* Pods_IndividualDevelopmentApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IndividualDevelopmentApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B0470CC024148B1B0012E7E8 /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
+		B0470CC024148B1B0012E7E8 /* ExtensionUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIViewController.swift; sourceTree = "<group>"; };
+		B0470CC22414C2AA0012E7E8 /* ConfirmEmailViewInLogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewInLogIn.swift; sourceTree = "<group>"; };
+		B0470CC42414C3B30012E7E8 /* ConfirmEmailViewControllerInLogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewControllerInLogIn.swift; sourceTree = "<group>"; };
 		B04A1BAB240CDD8400E427B8 /* RegisterRestaurantScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRestaurantScrollView.swift; sourceTree = "<group>"; };
 		B04A1BAF240D400300E427B8 /* RegisterStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterStore.swift; sourceTree = "<group>"; };
 		B0624E9F240F8F3300FF6A3A /* StoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailViewController.swift; sourceTree = "<group>"; };
@@ -156,7 +160,8 @@
 				B062F1ED240AAC00005A8B3C /* SignUpController.swift */,
 				B0A67E99240B6060006B5881 /* RegisterRestaurantViewController.swift */,
 				B0624E9F240F8F3300FF6A3A /* StoreDetailViewController.swift */,
-				B0470CC024148B1B0012E7E8 /* AlertController.swift */,
+				B0470CC024148B1B0012E7E8 /* ExtensionUIViewController.swift */,
+				B0470CC42414C3B30012E7E8 /* ConfirmEmailViewControllerInLogIn.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -166,6 +171,7 @@
 			children = (
 				B062F1C2240AA571005A8B3C /* OriginalUIComponents */,
 				B062F1C0240AA532005A8B3C /* ConfirmEmailView.swift */,
+				B0470CC22414C2AA0012E7E8 /* ConfirmEmailViewInLogIn.swift */,
 				B062F1CD240AA6F7005A8B3C /* MapView.swift */,
 				B062F1CF240AA71D005A8B3C /* ProfileView.swift */,
 				B062F1D1240AA738005A8B3C /* SideMenuOptionCell.swift */,
@@ -365,9 +371,10 @@
 				B062F1DA240AA95C005A8B3C /* SideMenuOption.swift in Sources */,
 				B062F1D2240AA738005A8B3C /* SideMenuOptionCell.swift in Sources */,
 				B062F1D8240AA944005A8B3C /* LogInUser.swift in Sources */,
+				B0470CC32414C2AA0012E7E8 /* ConfirmEmailViewInLogIn.swift in Sources */,
 				B062F1A4240A8B91005A8B3C /* AppDelegate.swift in Sources */,
 				B0CE0E2424109FBA00082456 /* OriginalLine.swift in Sources */,
-				B0470CC124148B1B0012E7E8 /* AlertController.swift in Sources */,
+				B0470CC124148B1B0012E7E8 /* ExtensionUIViewController.swift in Sources */,
 				B062F1EA240AABE1005A8B3C /* ProfileViewController.swift in Sources */,
 				B0624EA2240F8F8400FF6A3A /* StoreDetailView.swift in Sources */,
 				B062F1C8240AA68A005A8B3C /* OriginalImageView.swift in Sources */,
@@ -376,6 +383,7 @@
 				B062F1EC240AABF1005A8B3C /* SideMenuController.swift in Sources */,
 				B062F1E8240AABC4005A8B3C /* MapViewController.swift in Sources */,
 				B062F1E6240AABAB005A8B3C /* LogInController.swift in Sources */,
+				B0470CC52414C3B30012E7E8 /* ConfirmEmailViewControllerInLogIn.swift in Sources */,
 				B062F1EE240AAC00005A8B3C /* SignUpController.swift in Sources */,
 				B062F1C4240AA5B4005A8B3C /* OriginalLabel.swift in Sources */,
 				B04A1BB0240D400300E427B8 /* RegisterStore.swift in Sources */,

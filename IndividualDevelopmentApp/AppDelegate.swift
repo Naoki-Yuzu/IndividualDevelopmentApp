@@ -24,12 +24,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 } else {
                     
                     if Auth.auth().currentUser != nil {
-                        
                         print("exists user..")
-                        window = UIWindow(frame: UIScreen.main.bounds)
-                        let navContainerController = UINavigationController(rootViewController: ContainerController())
-                        window?.rootViewController = navContainerController
-                        window?.makeKeyAndVisible()
+                        if Auth.auth().currentUser!.isEmailVerified {
+                            
+                            print("is email verified")
+                            window = UIWindow(frame: UIScreen.main.bounds)
+                            let navContainerController = UINavigationController(rootViewController: ContainerController())
+                            window?.rootViewController = navContainerController
+                            window?.makeKeyAndVisible()
+                            
+                        } else {
+                            
+                            print("is not email verified")
+                            do {
+                                
+                                try Auth.auth().signOut()
+                                print("compulsion sign out..")
+
+                                window = UIWindow(frame: UIScreen.main.bounds)
+                                let navContainerController = UINavigationController(rootViewController: SignUpController())
+                                window?.rootViewController = navContainerController
+                                window?.makeKeyAndVisible()
+                                
+                                
+                            } catch let error {
+                                
+                                print(error.localizedDescription)
+                                
+                            }
+                            
+                        }
+                        
+                        
                         
                     } else {
                         

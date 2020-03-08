@@ -198,6 +198,8 @@ extension SignUpView {
         if enteredEmail() && conformSamePassword() {
             
             print("entered email and password")
+            registerButton.isEnabled = false
+            toggleLoginViewButton.isEnabled = false
             delegate?.signUpUser(withEmail: emailTextFeild.text!, password: passwordTextField.text!)
             
         }
