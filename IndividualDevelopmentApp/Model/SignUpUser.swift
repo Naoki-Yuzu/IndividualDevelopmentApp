@@ -11,11 +11,30 @@ import Firebase
 class SignUpUser {
     
     // ここクソむずいclosureむずい
-    func signUpUser(withEmail email: String, password: String, completion: @escaping () -> Void) {
+    func signUpUser(withEmail email: String, password: String, errorMessage: @escaping (String) -> Void ,completion: @escaping () -> Void) {
         
         Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
             if error != nil {
                 print("error")
+                if let errCode = AuthErrorCode(rawValue: error!._code) {
+                    print(errCode.rawValue)
+                    switch errCode {
+                    case .invalidEmail:
+                        errorMessage("メールアドレスの形式が違います")
+                        print("メールアドレスの形式が違います")
+                        break
+                    case .emailAlreadyInUse:
+                        errorMessage("このメールアドレスは既に使われています")
+                        print("このメールアドレスは既に使われています")
+                        break
+                    case .weakPassword:
+                        errorMessage("パスワードは6文字以上で入力してください")
+                        print("パスワードは6文字以上で入力してください")
+                        break
+                    default:
+                        break
+                    }
+                }
             } else {
                 
                 print("did sign up..")

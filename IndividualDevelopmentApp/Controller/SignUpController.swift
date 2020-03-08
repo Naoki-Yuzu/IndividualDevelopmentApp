@@ -103,21 +103,30 @@ extension SignUpController: SignUpViewDelegate {
         
         print("while sign up")
         // パターン1 トレイリングクロージャ使う
-        signUpUserModel.signUpUser(withEmail: email, password: password) {
+        signUpUserModel.signUpUser(withEmail: email, password: password, errorMessage: { (message) in
+            UIViewController.noticeAlert(viewController: self, alertTitle: "メッセージ", alertMessage: message)
+        }) {
             self.signUpUserModel.sendEmail() {
-                
-                print("sent email..")
-                self.navigationController?.pushViewController(ConfirmEmailController(), animated: true)
-            
-            }
-            
-            
+        
+            print("sent email..")
+            self.navigationController?.pushViewController(ConfirmEmailController(), animated: true)
         }
+//        signUpUserModel.signUpUser(withEmail: email, password: password) {
+//            self.signUpUserModel.sendEmail() {
+//
+//                print("sent email..")
+//                self.navigationController?.pushViewController(ConfirmEmailController(), animated: true)
+//
+            }
+        }
+        
+     
         
         /* パターン2 トレイリングクロージャ使わない
         signUpUserModel.signUpUser(withEmail: email, password: password, completion: {self.dismiss(animated: true, completion: nil)})
         */
         
-    }
-    
 }
+
+    
+
