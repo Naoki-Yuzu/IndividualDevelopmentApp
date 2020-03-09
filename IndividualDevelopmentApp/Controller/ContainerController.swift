@@ -86,12 +86,18 @@ class ContainerController: UIViewController {
     func didSelectSideMenuOption(sideMenuOption: SideMenuOption) {
         switch sideMenuOption {
         case .Profile:
+            mapViewController.mapView.isUserInteractionEnabled = true
+            mapViewController.view.isUserInteractionEnabled = true
             let navProfileViewController = UINavigationController(rootViewController: ProfileViewController())
             navProfileViewController.modalPresentationStyle = .fullScreen
             present(navProfileViewController, animated: true, completion: nil)
         case .Signout:
+            mapViewController.mapView.isUserInteractionEnabled = true
+            mapViewController.view.isUserInteractionEnabled = true
             SignOutAlert()
         case .Register:
+            mapViewController.mapView.isUserInteractionEnabled = true
+            mapViewController.view.isUserInteractionEnabled = true
             let registerRestaurantViewController = RegisterRestaurantViewController()
             let navRegisterRestaurantViewController = UINavigationController(rootViewController: registerRestaurantViewController)
             navRegisterRestaurantViewController.modalPresentationStyle = .fullScreen
