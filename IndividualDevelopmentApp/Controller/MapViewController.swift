@@ -18,6 +18,8 @@ protocol MapViewControllerDelegate {
 class MapViewController: UIViewController {
     
     // MARK: - Properties
+    static var postUserName: String!
+    static var postUserIcon: String!
     var mapView: MapView!
     var delegate: MapViewControllerDelegate?
     var storeModel: GetStoreInfo!
@@ -25,8 +27,7 @@ class MapViewController: UIViewController {
     var storeName: [String] = []
     var storeReview: [String] = []
     var storeImage: [String] = []
-    var postUserNameArray: [String] = []
-    var postUserIconArray: [String] = []
+    var userIdArray: [String] = []
     var count = 0
     var storeCount = 0
     var viewTapGesture: UITapGestureRecognizer!
@@ -39,8 +40,7 @@ class MapViewController: UIViewController {
         storeName.removeAll()
         storeReview.removeAll()
         storeName.removeAll()
-        postUserNameArray.removeAll()
-        postUserIconArray.removeAll()
+        userIdArray.removeAll()
         view.backgroundColor = .gray
         navigationController?.isNavigationBarHidden = true
         configureMapView()
@@ -72,12 +72,7 @@ class MapViewController: UIViewController {
         print("configure view tap gesture")
         mapView.isUserInteractionEnabled = false
         viewTapGesture = UITapGestureRecognizer(target: self, action: #selector(hideSideMenu))
-//        viewTapGesture.delegate = self
-//        mapView.mapView.addSubview(clearView)
-//        mapView.mapView.subviews[0].isUserInteractionEnabled = true
         view.addGestureRecognizer(viewTapGesture)
-//        self.mapView.mapView.subviews[0].addGestureRecognizer(viewTapGesture)
-//        print(mapView.mapView.subviews[0])
         
         
     }
@@ -88,24 +83,19 @@ class MapViewController: UIViewController {
         storeModel = GetStoreInfo()
         storeModel.getStoreInfo { [weak self] (snapShot) in
             if let self = self {
+                
+                
                 for document in snapShot.documents {
-                //                    print("1111111")
-                //                    print(document.data())
-                //                    print("111111")
-                    let storeData = document.data()
-                    guard let latitude = storeData["latitude"] as? Double, let longitude = storeData["longitude"] as? Double, let storeName = storeData["storeName"] as? String, let storeImage = storeData["storeImage"] as? String, let storeReview = storeData["storeImpression"] as? String, let userId = storeData["userId"] as? String else { return }
-                //                    print("22222")
-                //                    print(storeReview)
-                //                    print(storeName)
-                //                    print("22222")
-                //                    self.storeName.append(storeName)
-                //                    self.storeReview.append(storeReview)
-                //                    self.storeImage.append(storeImage)
 
-                                
-                    self.configureMakerInMap(latitude: latitude, longitude: longitude, storeName: storeName, count: self.count, storeReview: storeReview, storeImage: storeImage, userId: userId)
-                    self.count += 1
-                            }
+                        let storeData = document.data()
+                        guard let latitude = storeData["latitude"] as? Double, let longitude = storeData["longitude"] as? Double, let storeName = storeData["storeName"] as? String, let storeImage = storeData["storeImage"] as? String, let storeReview = storeData["storeImpression"] as? String, let userId = storeData["userId"] as? String else { return }
+
+
+                        self.configureMakerInMap(latitude: latitude, longitude: longitude, storeName: storeName, count: self.count, storeReview: storeReview, storeImage: storeImage, userId: userId)
+                        self.count += 1
+
+                    }
+                
             }
             
             
@@ -121,37 +111,17 @@ class MapViewController: UIViewController {
         marker.title = storeName
         marker.identifier = count
         marker.map = mapView.mapView
-        self.storeName.append(storeName)
-        self.storeReview.append(storeReview)
-        self.storeImage.append(storeImage)
-        print(userId)
-        self.storeModel.getPostUserInfo(userId: userId, storeName: storeName, storeReview: storeReview) { [weak self] (snapShot) in
-            if let self = self {
-
-                let userInfo = snapShot.data()
-                print("0")
-//                print(userInfo as Any)
-                print("出てきたよ")
-//                print(userId)
-                
-                guard let postUserName = userInfo!["userName"] as? String, let postUserIcon = userInfo!["userImage"] as? String else { return }
-                print(postUserName)
-                print(postUserIcon)
-                self.postUserNameArray.append(postUserName)
-                self.postUserIconArray.append(postUserIcon)
-                
-                self.configureViewController(storeName: self.storeName[self.storeCount], storeReview: self.storeReview[self.storeCount], storeImage: self.storeImage[self.storeCount], count: self.count, postUserName: self.postUserNameArray[self.storeCount], postUserIcon: self.postUserIconArray[self.storeCount])
-                self.storeCount += 1
-            }
-        }
+        configureArrays(storeName: storeName, storeReview: storeReview, storeImage: storeImage, count: count, userId: userId)
+        print("ウヘヘ")
         
         
     }
     
-    func configureViewController(storeName: String, storeReview: String, storeImage: String, count: Int, postUserName: String, postUserIcon: String) {
-        
-        storeDetailViewControllers.append(StoreDetailViewController(storeName: storeName, storeReview: storeReview, storeImage: storeImage, postUserName: postUserName,  postUserIcon: postUserIcon,count: count))
-        
+    func configureArrays(storeName: String, storeReview: String, storeImage: String, count: Int, userId: String) {
+        self.storeName.append(storeName)
+        self.storeReview.append(storeReview)
+        self.storeImage.append(storeImage)
+        self.userIdArray.append(userId)
     }
     
     // MARK: Selectors
@@ -190,11 +160,22 @@ extension MapViewController: MapViewDelegate {
 extension MapViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        print(marker.identifier)
-        let navStoreDetailViewController = UINavigationController(rootViewController: storeDetailViewControllers[marker.identifier])
-        navStoreDetailViewController.modalPresentationStyle = .fullScreen
-        present(navStoreDetailViewController, animated: true, completion: nil)
-        print("did tap info window of maker..")
+        
+        let userId = userIdArray[marker.identifier]
+        storeModel.getPostUserInfo(userId: userId) { [weak self] (snapShot) in
+            if let self = self {
+                let userInfo = snapShot.data()
+                guard let postUserName = userInfo!["userName"] as? String, let postUserIcon = userInfo!["userImage"] as? String else { return }
+                
+                MapViewController.postUserName = postUserName
+                MapViewController.postUserIcon = postUserIcon
+                let navStoreDetailViewController = UINavigationController(rootViewController: StoreDetailViewController(storeName: self.storeName[marker.identifier], storeReview: self.storeReview[marker.identifier], storeImage: self.storeImage[marker.identifier], count: self.count, userId: self.userIdArray[marker.identifier]))
+                navStoreDetailViewController.modalPresentationStyle = .fullScreen
+                self.present(navStoreDetailViewController, animated: true, completion: nil)
+                print("did tap info window of maker..")
+            }
+        }
+        
     }
     
 }

@@ -12,20 +12,19 @@ class StoreDetailViewController: UIViewController {
     
     //MARK: - Properties
     var storeDetailView: StoreDetailView!
-    var postUserName: String!
-    var poustUserIcon: String!
     var storeName: String!
     var storeReview: String!
     var storeImage: String!
     var count: Int!
+    var userId: String!
     
-    init(storeName: String, storeReview: String, storeImage: String, postUserName: String, postUserIcon: String, count: Int) {
+    
+    init(storeName: String, storeReview: String, storeImage: String, count: Int, userId: String) {
         super.init(nibName: nil, bundle: nil)
         self.storeName = storeName
         self.storeReview = storeReview
         self.storeImage = storeImage
-        self.postUserName = postUserName
-        self.poustUserIcon = postUserIcon
+        self.userId = userId
         self.count = count
     }
     
@@ -53,7 +52,7 @@ class StoreDetailViewController: UIViewController {
         storeDetailView = StoreDetailView()
         storeDetailView.backgroundColor = UIColor(red: 162/255, green: 99/255, blue: 24/255, alpha: 1)
         let storeImageURL = URL(string: storeImage)
-        let userIconURL = URL(string: poustUserIcon)
+        let userIconURL = URL(string: MapViewController.postUserIcon)
         do {
             let storeImageData = try Data(contentsOf: storeImageURL!)
             let userIconData = try Data(contentsOf: userIconURL!)
@@ -65,7 +64,7 @@ class StoreDetailViewController: UIViewController {
         }
         storeDetailView.storeNameLabel.text = self.storeName
         storeDetailView.storeImpresstionLabel.text = self.storeReview
-        storeDetailView.postUserName.text = self.postUserName
+        storeDetailView.postUserName.text = MapViewController.postUserName
         
         view.addSubview(storeDetailView)
     }
