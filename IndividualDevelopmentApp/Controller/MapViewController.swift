@@ -32,6 +32,7 @@ class MapViewController: UIViewController {
     var count = 0
     var storeCount = 0
     var viewTapGesture: UITapGestureRecognizer!
+    var translucentView: UIView!
     var activityIndicatorView: UIActivityIndicatorView!
     
     // MARK: - Helper Functions
@@ -129,11 +130,19 @@ class MapViewController: UIViewController {
     
     func configureIndicatorView() {
         
+        translucentView = UIView()
+        translucentView.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.5)
+        translucentView.frame.size = CGSize(width: 150, height: 150)
+        translucentView.layer.cornerRadius = 20
+        translucentView.center = view.center
+        translucentView.isHidden = true
+        
         activityIndicatorView = UIActivityIndicatorView()
         activityIndicatorView.hidesWhenStopped = true
-        activityIndicatorView.center = view.center
+        activityIndicatorView.center = translucentView.center
         activityIndicatorView.style = .large
         activityIndicatorView.color = UIColor(red: 44/255, green: 169/255, blue: 225/255, alpha: 1)
+        view.addSubview(translucentView)
         view.addSubview(activityIndicatorView)
         
     }
@@ -174,6 +183,7 @@ extension MapViewController: MapViewDelegate {
 extension MapViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        translucentView.isHidden = false
         activityIndicatorView.startAnimating()
         self.mapView.isUserInteractionEnabled = false
         let userId = userIdArray[marker.identifier]
@@ -191,6 +201,7 @@ extension MapViewController: GMSMapViewDelegate {
                 let navStoreDetailViewController = UINavigationController(rootViewController: StoreDetailViewController(storeName: self.storeName[marker.identifier], storeReview: self.storeReview[marker.identifier], storeImage: self.storeImage[marker.identifier], count: self.count, userId: self.userIdArray[marker.identifier], latitude: self.latitudeArray[marker.identifier], longitude: self.longitudeArray[marker.identifier]))
                 navStoreDetailViewController.modalPresentationStyle = .fullScreen
                 self.present(navStoreDetailViewController, animated: true) {
+                    self.translucentView.isHidden = true
                     self.activityIndicatorView.stopAnimating()
                     self.mapView.isUserInteractionEnabled = true
                 }
