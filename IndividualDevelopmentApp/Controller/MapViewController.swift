@@ -32,6 +32,7 @@ class MapViewController: UIViewController {
     var count = 0
     var storeCount = 0
     var viewTapGesture: UITapGestureRecognizer!
+    var activityIndicatorView: UIActivityIndicatorView!
     
     // MARK: - Helper Functions
     override func viewDidLoad() {
@@ -46,6 +47,7 @@ class MapViewController: UIViewController {
         view.backgroundColor = .gray
         navigationController?.isNavigationBarHidden = true
         configureMapView()
+        configureIndicatorView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -86,12 +88,10 @@ class MapViewController: UIViewController {
         storeModel.getStoreInfo { [weak self] (snapShot) in
             if let self = self {
                 
-                
                 for document in snapShot.documents {
 
                         let storeData = document.data()
                         guard let latitude = storeData["latitude"] as? Double, let longitude = storeData["longitude"] as? Double, let storeName = storeData["storeName"] as? String, let storeImage = storeData["storeImage"] as? String, let storeReview = storeData["storeImpression"] as? String, let userId = storeData["userId"] as? String else { return }
-
 
                         self.configureMakerInMap(latitude: latitude, longitude: longitude, storeName: storeName, count: self.count, storeReview: storeReview, storeImage: storeImage, userId: userId)
                         self.count += 1
@@ -99,7 +99,6 @@ class MapViewController: UIViewController {
                     }
                 
             }
-            
             
         }
         
@@ -126,6 +125,17 @@ class MapViewController: UIViewController {
         self.userIdArray.append(userId)
         self.latitudeArray.append(latitude)
         self.longitudeArray.append(longitude)
+    }
+    
+    func configureIndicatorView() {
+        
+        activityIndicatorView = UIActivityIndicatorView()
+        activityIndicatorView.hidesWhenStopped = true
+        activityIndicatorView.center = view.center
+        activityIndicatorView.style = .large
+        activityIndicatorView.color = UIColor(red: 44/255, green: 169/255, blue: 225/255, alpha: 1)
+        view.addSubview(activityIndicatorView)
+        
     }
     
     // MARK: Selectors
@@ -164,7 +174,8 @@ extension MapViewController: MapViewDelegate {
 extension MapViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        
+        activityIndicatorView.startAnimating()
+        self.mapView.isUserInteractionEnabled = false
         let userId = userIdArray[marker.identifier]
         storeModel.getPostUserInfo(userId: userId) { [weak self] (snapShot) in
             if let self = self {
@@ -179,7 +190,10 @@ extension MapViewController: GMSMapViewDelegate {
                 
                 let navStoreDetailViewController = UINavigationController(rootViewController: StoreDetailViewController(storeName: self.storeName[marker.identifier], storeReview: self.storeReview[marker.identifier], storeImage: self.storeImage[marker.identifier], count: self.count, userId: self.userIdArray[marker.identifier], latitude: self.latitudeArray[marker.identifier], longitude: self.longitudeArray[marker.identifier]))
                 navStoreDetailViewController.modalPresentationStyle = .fullScreen
-                self.present(navStoreDetailViewController, animated: true, completion: nil)
+                self.present(navStoreDetailViewController, animated: true) {
+                    self.activityIndicatorView.stopAnimating()
+                    self.mapView.isUserInteractionEnabled = true
+                }
                 print("did tap info window of maker..")
             }
         }

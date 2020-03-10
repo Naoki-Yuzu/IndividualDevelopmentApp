@@ -107,7 +107,7 @@ class StoreDetailViewController: UIViewController {
     @objc func startNav() {
         
         let alertController = UIAlertController(title: nil, message: "ナビを開始します", preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Google Mapアプリを起動", style: .default, handler: { (_) in
+        alertController.addAction(UIAlertAction(title: "Google Map アプリ", style: .default, handler: { (_) in
             print("google map start")
             if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
                 self.mapURLString = "comgooglemaps://?daddr=\(self.latitude!),\(self.longitude!)&directionsmode=walking&zoom=14"
@@ -123,7 +123,7 @@ class StoreDetailViewController: UIViewController {
             }
         }))
         
-        alertController.addAction(UIAlertAction(title: "標準マップアプリを起動", style: .default, handler: { (_) in
+        alertController.addAction(UIAlertAction(title: "標準マップアプリ", style: .default, handler: { (_) in
             print("apple map start")
             if UIApplication.shared.canOpenURL(URL(string:"http://maps.apple.com")!) {
                 self.mapURLString = "http://maps.apple.com/?daddr=\(self.latitude!),\(self.longitude!)&dirflg=w"
