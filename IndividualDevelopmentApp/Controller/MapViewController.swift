@@ -23,11 +23,12 @@ class MapViewController: UIViewController {
     var mapView: MapView!
     var delegate: MapViewControllerDelegate?
     var storeModel: GetStoreInfo!
-    var storeDetailViewControllers: [StoreDetailViewController] = []
     var storeName: [String] = []
     var storeReview: [String] = []
     var storeImage: [String] = []
     var userIdArray: [String] = []
+    var latitudeArray: [Double] = []
+    var longitudeArray: [Double] = []
     var count = 0
     var storeCount = 0
     var viewTapGesture: UITapGestureRecognizer!
@@ -36,11 +37,12 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        storeDetailViewControllers.removeAll()
         storeName.removeAll()
         storeReview.removeAll()
         storeName.removeAll()
         userIdArray.removeAll()
+        latitudeArray.removeAll()
+        longitudeArray.removeAll()
         view.backgroundColor = .gray
         navigationController?.isNavigationBarHidden = true
         configureMapView()
@@ -111,17 +113,19 @@ class MapViewController: UIViewController {
         marker.title = storeName
         marker.identifier = count
         marker.map = mapView.mapView
-        configureArrays(storeName: storeName, storeReview: storeReview, storeImage: storeImage, count: count, userId: userId)
+        configureArrays(storeName: storeName, storeReview: storeReview, storeImage: storeImage, count: count, userId: userId, latitude: latitude, longitude: longitude)
         print("ウヘヘ")
         
         
     }
     
-    func configureArrays(storeName: String, storeReview: String, storeImage: String, count: Int, userId: String) {
+    func configureArrays(storeName: String, storeReview: String, storeImage: String, count: Int, userId: String, latitude: Double, longitude: Double) {
         self.storeName.append(storeName)
         self.storeReview.append(storeReview)
         self.storeImage.append(storeImage)
         self.userIdArray.append(userId)
+        self.latitudeArray.append(latitude)
+        self.longitudeArray.append(longitude)
     }
     
     // MARK: Selectors
@@ -164,12 +168,16 @@ extension MapViewController: GMSMapViewDelegate {
         let userId = userIdArray[marker.identifier]
         storeModel.getPostUserInfo(userId: userId) { [weak self] (snapShot) in
             if let self = self {
-                let userInfo = snapShot.data()
-                guard let postUserName = userInfo!["userName"] as? String, let postUserIcon = userInfo!["userImage"] as? String else { return }
+                if snapShot.data() == nil {
+                    MapViewController.postUserName = "名無しさん"
+                } else {
+                    let userInfo = snapShot.data()
+                    guard let postUserName = userInfo!["userName"] as? String, let postUserIcon = userInfo!["userImage"] as? String else { return }
+                    MapViewController.postUserName = postUserName
+                    MapViewController.postUserIcon = postUserIcon
+                }
                 
-                MapViewController.postUserName = postUserName
-                MapViewController.postUserIcon = postUserIcon
-                let navStoreDetailViewController = UINavigationController(rootViewController: StoreDetailViewController(storeName: self.storeName[marker.identifier], storeReview: self.storeReview[marker.identifier], storeImage: self.storeImage[marker.identifier], count: self.count, userId: self.userIdArray[marker.identifier]))
+                let navStoreDetailViewController = UINavigationController(rootViewController: StoreDetailViewController(storeName: self.storeName[marker.identifier], storeReview: self.storeReview[marker.identifier], storeImage: self.storeImage[marker.identifier], count: self.count, userId: self.userIdArray[marker.identifier], latitude: self.latitudeArray[marker.identifier], longitude: self.longitudeArray[marker.identifier]))
                 navStoreDetailViewController.modalPresentationStyle = .fullScreen
                 self.present(navStoreDetailViewController, animated: true, completion: nil)
                 print("did tap info window of maker..")

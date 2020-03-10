@@ -17,15 +17,19 @@ class StoreDetailViewController: UIViewController {
     var storeImage: String!
     var count: Int!
     var userId: String!
+    var latitude: Double!
+    var longitude: Double!
+    var mapURLString: String!
     
-    
-    init(storeName: String, storeReview: String, storeImage: String, count: Int, userId: String) {
+    init(storeName: String, storeReview: String, storeImage: String, count: Int, userId: String, latitude: Double, longitude: Double) {
         super.init(nibName: nil, bundle: nil)
         self.storeName = storeName
         self.storeReview = storeReview
         self.storeImage = storeImage
         self.userId = userId
         self.count = count
+        self.latitude = latitude
+        self.longitude = longitude
     }
     
     required init?(coder: NSCoder) {
@@ -52,16 +56,33 @@ class StoreDetailViewController: UIViewController {
         storeDetailView = StoreDetailView()
         storeDetailView.backgroundColor = UIColor(red: 162/255, green: 99/255, blue: 24/255, alpha: 1)
         let storeImageURL = URL(string: storeImage)
-        let userIconURL = URL(string: MapViewController.postUserIcon)
-        do {
-            let storeImageData = try Data(contentsOf: storeImageURL!)
-            let userIconData = try Data(contentsOf: userIconURL!)
-            self.storeDetailView.storeImageView.image = UIImage(data: storeImageData)
-            self.storeDetailView.postUserIcon.image = UIImage(data: userIconData)
-            print("did set user image from database..")
-        } catch _ {
-            print("error..")
+        if let unwrapedPostUserIcon = MapViewController.postUserIcon {
+            let userIconURL = URL(string: unwrapedPostUserIcon)
+            if let unwrapedUserIconURL = userIconURL {
+                do {
+                    let storeImageData = try Data(contentsOf: storeImageURL!)
+                    let userIconData = try Data(contentsOf: unwrapedUserIconURL)
+                    self.storeDetailView.storeImageView.image = UIImage(data: storeImageData)
+                    self.storeDetailView.postUserIcon.image = UIImage(data: userIconData)
+                    print("did set user image from database..")
+                } catch _ {
+                    print("error..")
+                }
+            }
+            
+        } else {
+            
+            do {
+                let storeImageData = try Data(contentsOf: storeImageURL!)
+                self.storeDetailView.storeImageView.image = UIImage(data: storeImageData)
+                self.storeDetailView.postUserIcon.image = UIImage(named: "profile_icon")
+                print("did set user image from database..")
+            } catch _ {
+                print("error..")
+            }
+            
         }
+        
         storeDetailView.storeNameLabel.text = self.storeName
         storeDetailView.storeImpresstionLabel.text = self.storeReview
         storeDetailView.postUserName.text = MapViewController.postUserName
@@ -84,7 +105,41 @@ class StoreDetailViewController: UIViewController {
     }
     
     @objc func startNav() {
-        print("start navgation..")
+        
+        let alertController = UIAlertController(title: nil, message: "ナビを開始します", preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "Google Mapアプリを起動", style: .default, handler: { (_) in
+            print("google map start")
+            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+                self.mapURLString = "comgooglemaps://?daddr=\(self.latitude!),\(self.longitude!)&directionsmode=walking&zoom=14"
+            } else {
+                let alertController = UIAlertController(title: "エラー", message: "アプリがインストールされていません", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+                return
+            }
+            
+            if let url = URL(string: self.mapURLString) {
+            UIApplication.shared.open(url)
+            }
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "標準マップアプリを起動", style: .default, handler: { (_) in
+            print("apple map start")
+            if UIApplication.shared.canOpenURL(URL(string:"http://maps.apple.com")!) {
+                self.mapURLString = "http://maps.apple.com/?daddr=\(self.latitude!),\(self.longitude!)&dirflg=w"
+            } else {
+                let alertController = UIAlertController(title: "エラー", message: "アプリがインストールされていません", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+                return
+            }
+            
+            if let url = URL(string: self.mapURLString) {
+            UIApplication.shared.open(url)
+            }
+        }))
+        alertController.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
     
 }
