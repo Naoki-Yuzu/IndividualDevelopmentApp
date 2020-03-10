@@ -1,18 +1,18 @@
 //
-//  ConfirmEmailController.swift
+//  ConfirmEmailViewControllerInLogIn.swift
 //  IndividualDevelopmentApp
 //
-//  Created by デュフフくん on 2020/02/29.
+//  Created by デュフフくん on 2020/03/08.
 //  Copyright © 2020 Naoki-Yuzu. All rights reserved.
 //
 
 import UIKit
 
 // 届いたメールのリンクを踏んだか確認するためのViewController
-class ConfirmEmailController: UIViewController {
+class ConfirmEmailControllerInLogIn: UIViewController {
     
     // MARK: - Properties
-    var confirmEmailView = ConfirmEmailView()
+    var confirmEmailView = ConfirmEmailViewInLogIn()
     var confirmEmailModel = SignUpUser()
     var activityIndicatorView: UIActivityIndicatorView!
     var timer: Timer!
@@ -61,9 +61,9 @@ class ConfirmEmailController: UIViewController {
 }
 
 // MARK: - Delagate
-extension ConfirmEmailController: ConfirmEmailViewDelegate {
+extension ConfirmEmailControllerInLogIn: ConfirmEmailViewInLogInDelegate {
 
-    func resendEmail() {
+    func sendEmail() {
         activityIndicatorView.startAnimating()
         confirmEmailModel.resendEmail(errorMessage: {(errorMessage) in
             self.activityIndicatorView.stopAnimating()
@@ -82,7 +82,7 @@ extension ConfirmEmailController: ConfirmEmailViewDelegate {
         }
     }
     
-    func completedRegistration() {
+    func completedRegistrationInLogIn() {
         activityIndicatorView.startAnimating()
         // この引数クロージャでトレイリングクロージャをすると意味不になりそうなのであえて使わない
         confirmEmailModel.goToMainContentView(ifError: {

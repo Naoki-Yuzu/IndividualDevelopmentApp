@@ -13,6 +13,7 @@ class ContainerController: UIViewController {
     // MARK: - Properties
     var navMapViewController: UIViewController!
     var sideMenuController: UIViewController!
+    var mapViewController: MapViewController!
     var isExpansion = false
     let signOutUser = SignOutUser()
     
@@ -34,7 +35,7 @@ class ContainerController: UIViewController {
     func configureMapViewController() {
         
         print("configure map view controller..")
-        let mapViewController = MapViewController()
+        mapViewController = MapViewController()
         mapViewController.delegate = self
         navMapViewController = UINavigationController(rootViewController: mapViewController)
         
@@ -70,14 +71,14 @@ class ContainerController: UIViewController {
         }
     }
     
-    func hideSideMenu(sidMenuOption: SideMenuOption) {
+    func hideSideMenu(sideMenuOption: SideMenuOption) {
         
         print("hide menu..")
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             self.navMapViewController.view.frame.origin.x = 0
         }) { (_) in
             // 引数は使用しないのため_でok
-            self.didSelectSideMenuOption(sideMenuOption: sidMenuOption)
+            self.didSelectSideMenuOption(sideMenuOption: sideMenuOption)
         }
         
     }
@@ -85,12 +86,18 @@ class ContainerController: UIViewController {
     func didSelectSideMenuOption(sideMenuOption: SideMenuOption) {
         switch sideMenuOption {
         case .Profile:
+            mapViewController.mapView.isUserInteractionEnabled = true
+            mapViewController.view.isUserInteractionEnabled = true
             let navProfileViewController = UINavigationController(rootViewController: ProfileViewController())
             navProfileViewController.modalPresentationStyle = .fullScreen
             present(navProfileViewController, animated: true, completion: nil)
         case .Signout:
+            mapViewController.mapView.isUserInteractionEnabled = true
+            mapViewController.view.isUserInteractionEnabled = true
             SignOutAlert()
         case .Register:
+            mapViewController.mapView.isUserInteractionEnabled = true
+            mapViewController.view.isUserInteractionEnabled = true
             let registerRestaurantViewController = RegisterRestaurantViewController()
             let navRegisterRestaurantViewController = UINavigationController(rootViewController: registerRestaurantViewController)
             navRegisterRestaurantViewController.modalPresentationStyle = .fullScreen
@@ -119,6 +126,12 @@ class ContainerController: UIViewController {
 // MARK: - Delegate
 extension ContainerController: MapViewControllerDelegate {
     
+    func hideMenu() {
+        mapViewController.mapView.isUserInteractionEnabled = true
+        mapViewController.view.isUserInteractionEnabled = true
+        isExpansion = !isExpansion
+        showSideMenu(shouldExpand: isExpansion)
+    }
     
     func showOrHideSideMenu() {
         print("came container controller..")
@@ -137,7 +150,7 @@ extension ContainerController: MapViewControllerDelegate {
 extension ContainerController: SideMenuControllerDelegate {
     
     func hideSideMenu(forSideMenuOption sideMenuOption: SideMenuOption) {
-        hideSideMenu(sidMenuOption: sideMenuOption)
+        hideSideMenu(sideMenuOption: sideMenuOption)
         isExpansion = false
     }
     

@@ -166,6 +166,8 @@ extension LogInView {
     
     @objc func logInUser() {
         
+        logInButton.isEnabled = false
+        toggleSignUpViewButton.isEnabled = false
         delegate?.logInUser(withEmail: emailTextFeild.text!, password: passwordTextField.text!)
         
     }

@@ -16,21 +16,51 @@ class GetStoreInfo {
     // MARK: - Methods
     func getStoreInfo(completion: @escaping (_ snapShot: QuerySnapshot) -> Void) {
         let collRef = db.collection("Stores")
-        collRef.getDocuments { (snapShot, error) in
-            if error != nil {
-                print("could not get store data..")
-            } else {
-                guard let unwrappedSnapShot = snapShot else { return }
-                completion(unwrappedSnapShot)
+        collRef.getDocuments { [weak self] (snapShot, error) in
+            if let _ = self {
+
+                if error != nil {
+                    print("could not get store data..")
+                } else {
+                    guard let unwrappedSnapShot = snapShot else { return }
+                    completion(unwrappedSnapShot)
+                }
+
             }
+            
         }
     }
     
-    func getPostUserInfo(userId: String, completion: @escaping  (_ snapShot: DocumentSnapshot) -> Void) {
+//    func getPostUserInfo(userId: String, storeName: String, storeReview: String ,completion: @escaping  (_ snapShot: DocumentSnapshot) -> Void) {
+//        print("getPostUserInfoメソッドだよ")
+//        print(userId)
+//        let docRef = db.collection("Users").document(userId)
+//        print("ihihi")
+//        docRef.getDocument { [weak self] (snapShot, error) in
+//            if let _ = self {
+//
+//                print("クロージャに入ったよ")
+//                guard let unwrappedSnapShot = snapShot else { return }
+//                print("アンラップしたよ")
+//                completion(unwrappedSnapShot)
+//
+//            }
+//        }
+//    }
+    
+    func getPostUserInfo(userId: String,completion: @escaping  (_ snapShot: DocumentSnapshot) -> Void) {
+        print("getPostUserInfoメソッドだよ")
+        print(userId)
         let docRef = db.collection("Users").document(userId)
-        docRef.getDocument { (snapShot, error) in
-            guard let unwrappedSnapShot = snapShot else { return }
-            completion(unwrappedSnapShot)
+        docRef.getDocument { [weak self] (snapShot, error) in
+            if let _ = self {
+                
+                print("クロージャに入ったよ")
+                guard let unwrappedSnapShot = snapShot else { return }
+                print("アンラップしたよ")
+                completion(unwrappedSnapShot)
+                
+            }
         }
     }
     

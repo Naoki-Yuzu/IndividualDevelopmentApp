@@ -12,11 +12,13 @@ class RegisterRestaurantViewController: UIViewController {
     
     // MARK: - Properties
     let storeModel = RegisterStore()
+    var activityIndicatorView: UIActivityIndicatorView!
     var registerRestaurantView: RegisterRestaurantView!
     var imageViewTapGesture: UITapGestureRecognizer!
     var editingTextView: UITextView?
     var longitude = MapView.longitude
     var latitude = MapView.latitude
+    
     
     // MARK: - Helper Functions
     override func viewWillAppear(_ animated: Bool) {
@@ -32,6 +34,7 @@ class RegisterRestaurantViewController: UIViewController {
         view.backgroundColor = .blue
         cofigureSubView()
         customizeNav()
+        configureIndicatorView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -79,7 +82,18 @@ class RegisterRestaurantViewController: UIViewController {
            imagePicker.sourceType = .photoLibrary
            present(imagePicker, animated: true, completion: nil)
            
-       }
+    }
+    
+    func configureIndicatorView() {
+        
+        activityIndicatorView = UIActivityIndicatorView()
+        activityIndicatorView.hidesWhenStopped = true
+        activityIndicatorView.center = view.center
+        activityIndicatorView.style = .large
+        activityIndicatorView.color = UIColor(red: 44/255, green: 169/255, blue: 225/255, alpha: 1)
+        view.addSubview(activityIndicatorView)
+        
+    }
     
     func configureObserver() {
 
@@ -102,6 +116,12 @@ class RegisterRestaurantViewController: UIViewController {
     }
     
     @objc func register() {
+        activityIndicatorView.startAnimating()
+        registerRestaurantView.impressionTextView.isUserInteractionEnabled = false
+        registerRestaurantView.storeNameTextField.isEnabled = false
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        navigationItem.leftBarButtonItem?.isEnabled = false
+        registerRestaurantView.storeImage.isUserInteractionEnabled = false
         print("register the store..")
         if registerRestaurantView.storeNameTextField.text == "" || registerRestaurantView.impressionTextView.text == "" {
             print("error")
@@ -109,6 +129,12 @@ class RegisterRestaurantViewController: UIViewController {
             guard let unwrappedLongitude = longitude, let unwrappedLatitude = latitude else { return }
             storeModel.registerStrore(storeImage: registerRestaurantView.storeImage.image!, storeName: registerRestaurantView.storeNameTextField.text!, storeImpression: registerRestaurantView.impressionTextView.text, longitude: unwrappedLongitude, latitude: unwrappedLatitude) {
                 print("did finish..")
+                self.activityIndicatorView.stopAnimating()
+                self.registerRestaurantView.impressionTextView.isUserInteractionEnabled = true
+                self.registerRestaurantView.storeNameTextField.isEnabled = true
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+                self.navigationItem.leftBarButtonItem?.isEnabled = true
+                self.registerRestaurantView.storeImage.isUserInteractionEnabled = true
                 self.dismiss(animated: true, completion: nil)
             }
         }

@@ -1,23 +1,23 @@
 //
-//  ConfirmEmailView.swift
+//  ConfirmEmailViewInLogIn.swift
 //  IndividualDevelopmentApp
 //
-//  Created by デュフフくん on 2020/02/29.
+//  Created by デュフフくん on 2020/03/08.
 //  Copyright © 2020 Naoki-Yuzu. All rights reserved.
 //
 
 import UIKit
 
 // MARK: - Protocol
-protocol ConfirmEmailViewDelegate {
+protocol ConfirmEmailViewInLogInDelegate {
     
-    func resendEmail()
+    func sendEmail()
     
-    func completedRegistration()
+    func completedRegistrationInLogIn()
     
 }
 
-class ConfirmEmailView: UIView {
+class ConfirmEmailViewInLogIn: UIView {
 
     // MARK: - Properties
     var titleLabel: UILabel!
@@ -25,7 +25,7 @@ class ConfirmEmailView: UIView {
     var resendEmailButton: UIButton!
     var completedRegistrationButton: UIButton!
     
-    var delegate: ConfirmEmailViewDelegate?
+    var delegate: ConfirmEmailViewInLogInDelegate?
     
     // MARK: - Inits
     override init(frame: CGRect) {
@@ -35,11 +35,11 @@ class ConfirmEmailView: UIView {
         titleLabel = OriginalLabel(textOfLabel: "ご本人様確認", textColor: .black, fontAndSize: .boldSystemFont(ofSize: 20))
         titleLabel.textAlignment = .center
         
-        descriptionLabel = OriginalLabel(textOfLabel: "ご本人様確認用のメールを送信いたしました。メールに記載されているリンクをタップし、本人確認を完了させてください。\nこのアプリケーションをバックグラウンドで開いたままメールをご確認ください", textColor: .black, fontAndSize: .boldSystemFont(ofSize: 11))
+        descriptionLabel = OriginalLabel(textOfLabel: "本人確認が完了していません。メールを受信した後、メールに記載されているリンクをタップし、本人確認を完了させてください。\nこのアプリケーションはバックグラウンドで開いたままメールをご確認ください", textColor: .black, fontAndSize: .boldSystemFont(ofSize: 11))
         descriptionLabel.numberOfLines = 0
         
         
-        resendEmailButton = OriginalButton(title: "再送信", titleColor: .white ,fontAndSize: .boldSystemFont(ofSize: 15), backgroundColor: UIColor(red: 65/255, green: 105/255, blue: 225/255, alpha: 1))
+        resendEmailButton = OriginalButton(title: "送信", titleColor: .white ,fontAndSize: .boldSystemFont(ofSize: 15), backgroundColor: UIColor(red: 65/255, green: 105/255, blue: 225/255, alpha: 1))
         resendEmailButton.addTarget(self, action: #selector(resendEmail), for: .touchUpInside)
         
         completedRegistrationButton = OriginalButton(title: "完了", titleColor: .white, fontAndSize: .boldSystemFont(ofSize: 15), backgroundColor: UIColor(red: 0/255, green: 128/255, blue: 128/255, alpha: 1))
@@ -92,7 +92,7 @@ class ConfirmEmailView: UIView {
         resendEmailButton.isEnabled = false
         completedRegistrationButton.isEnabled = false
         print("taped resend email button")
-        delegate?.resendEmail()
+        delegate?.sendEmail()
         
     }
     
@@ -101,7 +101,7 @@ class ConfirmEmailView: UIView {
         resendEmailButton.isEnabled = false
         completedRegistrationButton.isEnabled = false
         print("taped completed retistration button")
-        delegate?.completedRegistration()
+        delegate?.completedRegistrationInLogIn()
         
     }
     
