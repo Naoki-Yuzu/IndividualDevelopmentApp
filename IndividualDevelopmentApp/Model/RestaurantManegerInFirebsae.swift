@@ -12,6 +12,7 @@ class RestaurantManegerInFirebsae {
     
     // MARK: - Properties
     let db = Firestore.firestore()
+    let storageRef = Storage.storage().reference(forURL: "gs://individualdevelopmentapp-aa9c9.appspot.com")
     
     // MARK: - Methods
     func CurrentUserAndPostUserIsEquel(withUserID userId: String) -> Bool {
@@ -28,9 +29,17 @@ class RestaurantManegerInFirebsae {
     
     func deleteRestaurant(withStoreName documentName: String, ifErrorMessage: @escaping (String) -> Void, completion: @escaping () -> Void) {
         db.collection("Stores").document("\(documentName)").delete { [weak self] (error) in
-            guard let _ = self else { return }
+            guard let self = self else { return }
             if error == nil {
-                completion()
+                let userId = Auth.auth().currentUser?.uid
+                self.storageRef.child("stores").child("\(userId!)").child("\(documentName).jpg").delete { [weak self] (storageError) in
+                    guard let _ = self else { return }
+                    if storageError == nil {
+                        completion()
+                    } else {
+                        ifErrorMessage("データを削除できませんでした")
+                    }
+                }
             } else {
                 ifErrorMessage("データを削除できませんでした")
             }
