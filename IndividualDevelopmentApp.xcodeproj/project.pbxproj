@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7B1C68716D0A3DCD93860B6A /* Pods_IndividualDevelopmentApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C13B1DFF7B0AE1A9B55866 /* Pods_IndividualDevelopmentApp.framework */; };
+		B02FDF03241B60360023526E /* RestaurantManegerInFirebsae.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02FDF02241B60360023526E /* RestaurantManegerInFirebsae.swift */; };
 		B0470CC124148B1B0012E7E8 /* ExtensionUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0470CC024148B1B0012E7E8 /* ExtensionUIViewController.swift */; };
 		B0470CC32414C2AA0012E7E8 /* ConfirmEmailViewInLogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0470CC22414C2AA0012E7E8 /* ConfirmEmailViewInLogIn.swift */; };
 		B0470CC52414C3B30012E7E8 /* ConfirmEmailViewControllerInLogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0470CC42414C3B30012E7E8 /* ConfirmEmailViewControllerInLogIn.swift */; };
@@ -55,6 +56,7 @@
 		1F7CDBA8BC139525A3B470F0 /* Pods-IndividualDevelopmentApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IndividualDevelopmentApp.debug.xcconfig"; path = "Target Support Files/Pods-IndividualDevelopmentApp/Pods-IndividualDevelopmentApp.debug.xcconfig"; sourceTree = "<group>"; };
 		7468BC98198FB953264AB3B1 /* Pods-IndividualDevelopmentApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IndividualDevelopmentApp.release.xcconfig"; path = "Target Support Files/Pods-IndividualDevelopmentApp/Pods-IndividualDevelopmentApp.release.xcconfig"; sourceTree = "<group>"; };
 		95C13B1DFF7B0AE1A9B55866 /* Pods_IndividualDevelopmentApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IndividualDevelopmentApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B02FDF02241B60360023526E /* RestaurantManegerInFirebsae.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantManegerInFirebsae.swift; sourceTree = "<group>"; };
 		B0470CC024148B1B0012E7E8 /* ExtensionUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIViewController.swift; sourceTree = "<group>"; };
 		B0470CC22414C2AA0012E7E8 /* ConfirmEmailViewInLogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewInLogIn.swift; sourceTree = "<group>"; };
 		B0470CC42414C3B30012E7E8 /* ConfirmEmailViewControllerInLogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewControllerInLogIn.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				B062F1DF240AAACC005A8B3C /* UserProfile.swift */,
 				B04A1BAF240D400300E427B8 /* RegisterStore.swift */,
 				B0D9FA272410F52D00137F6C /* GetStoreInfo.swift */,
+				B02FDF02241B60360023526E /* RestaurantManegerInFirebsae.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 				B062F1D6240AA75F005A8B3C /* SignUpView.swift in Sources */,
 				B062F1E0240AAACC005A8B3C /* UserProfile.swift in Sources */,
 				B062F1DC240AA970005A8B3C /* SignOutUser.swift in Sources */,
+				B02FDF03241B60360023526E /* RestaurantManegerInFirebsae.swift in Sources */,
 				B062F1C1240AA532005A8B3C /* ConfirmEmailView.swift in Sources */,
 				B062F1E2240AAB7E005A8B3C /* ConfirmEmailController.swift in Sources */,
 				B062F1D0240AA71D005A8B3C /* ProfileView.swift in Sources */,

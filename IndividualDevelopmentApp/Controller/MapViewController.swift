@@ -36,6 +36,16 @@ class MapViewController: UIViewController {
     var activityIndicatorView: UIActivityIndicatorView!
     
     // MARK: - Helper Functions
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("view will appear..")
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("view will desappear")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -210,5 +220,9 @@ extension MapViewController: GMSMapViewDelegate {
         }
         
     }
+    
+}
+
+extension UIViewController {
     
 }

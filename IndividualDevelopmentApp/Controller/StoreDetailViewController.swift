@@ -20,6 +20,9 @@ class StoreDetailViewController: UIViewController {
     var latitude: Double!
     var longitude: Double!
     var mapURLString: String!
+    var translucentView: UIView!
+    var activityIndicatorView: UIActivityIndicatorView!
+    let restaurantManeger = RestaurantManegerInFirebsae()
     
     init(storeName: String, storeReview: String, storeImage: String, count: Int, userId: String, latitude: Double, longitude: Double) {
         super.init(nibName: nil, bundle: nil)
@@ -37,12 +40,21 @@ class StoreDetailViewController: UIViewController {
     }
     
     //MARK: - Helper Functions
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if restaurantManeger.CurrentUserAndPostUserIsEquel(withUserID: userId) {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "削除", style: .plain, target: self, action: #selector(deleteRestaurant))
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         customizeNav()
         configureSubView()
+        configureIndicatorView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -94,14 +106,70 @@ class StoreDetailViewController: UIViewController {
         
         navigationController?.navigationBar.isTranslucent = false
         navigationItem.title = "詳細画面"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "戻る", style: .plain, target: self, action: #selector(back))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "ナビ開始", style: .plain, target: self, action: #selector(startNav))
+        let leftNav1 = UIBarButtonItem(title: "戻る", style: .plain, target: self, action: #selector(back))
+        let leftNav2 = UIBarButtonItem(title: "ナビ開始", style: .plain, target: self, action: #selector(startNav))
+        navigationItem.setLeftBarButtonItems([leftNav1, leftNav2], animated: true)
+        
+    }
+    
+    func configureIndicatorView() {
+        
+        translucentView = UIView()
+        translucentView.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.5)
+        translucentView.frame.size = CGSize(width: 150, height: 150)
+        translucentView.layer.cornerRadius = 20
+        translucentView.center = view.center
+        translucentView.isHidden = true
+        
+        activityIndicatorView = UIActivityIndicatorView()
+        activityIndicatorView.hidesWhenStopped = true
+        activityIndicatorView.center = translucentView.center
+        activityIndicatorView.style = .large
+        activityIndicatorView.color = UIColor(red: 44/255, green: 169/255, blue: 225/255, alpha: 1)
+        view.addSubview(translucentView)
+        view.addSubview(activityIndicatorView)
         
     }
     
     //MARK: - Selectors
     @objc func back() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func deleteRestaurant() {
+        let alertController = UIAlertController(title: "警告", message: "本当に登録したお店を削除しますか？", preferredStyle: .alert)
+        
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] (_) in
+            guard let self = self else { return }
+            self.navigationItem.leftBarButtonItems?.first?.isEnabled = false
+            self.navigationItem.leftBarButtonItems?.last?.isEnabled = false
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+            self.translucentView.isHidden = false
+            self.activityIndicatorView.startAnimating()
+            self.restaurantManeger.deleteRestaurant(withStoreName: self.storeName, ifErrorMessage: { (errorMessage) in
+                self.navigationItem.leftBarButtonItems?.first?.isEnabled = true
+                self.navigationItem.leftBarButtonItems?.last?.isEnabled = true
+                self.navigationItem.leftBarButtonItem?.isEnabled = true
+                self.translucentView.isHidden = true
+                self.activityIndicatorView.stopAnimating()
+                UIViewController.noticeAlert(viewController: self, alertTitle: "エラーメッセージ", alertMessage: errorMessage)
+            }, completion: {
+                self.translucentView.isHidden = true
+                self.activityIndicatorView.stopAnimating()
+                let alertController = UIAlertController(title: "メッセージ", message: "削除しました", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "ok", style: .default, handler: { (_) in
+                    self.dismiss(animated: true) {
+                        self.navigationItem.leftBarButtonItems?.first?.isEnabled = true
+                        self.navigationItem.leftBarButtonItems?.last?.isEnabled = true
+                        self.navigationItem.leftBarButtonItem?.isEnabled = true
+                    }
+                }))
+                self.present(alertController, animated: true, completion: nil)
+            })
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "キャンセル", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
     
     @objc func startNav() {
