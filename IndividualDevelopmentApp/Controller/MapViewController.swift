@@ -23,27 +23,32 @@ class MapViewController: UIViewController {
     var mapView: MapView!
     var delegate: MapViewControllerDelegate?
     var storeModel: GetStoreInfo!
-    var storeDetailViewControllers: [StoreDetailViewController] = []
     var storeName: [String] = []
     var storeReview: [String] = []
     var storeImage: [String] = []
     var userIdArray: [String] = []
+    var latitudeArray: [Double] = []
+    var longitudeArray: [Double] = []
     var count = 0
     var storeCount = 0
     var viewTapGesture: UITapGestureRecognizer!
+    var translucentView: UIView!
+    var activityIndicatorView: UIActivityIndicatorView!
     
     // MARK: - Helper Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        storeDetailViewControllers.removeAll()
         storeName.removeAll()
         storeReview.removeAll()
         storeName.removeAll()
         userIdArray.removeAll()
+        latitudeArray.removeAll()
+        longitudeArray.removeAll()
         view.backgroundColor = .gray
         navigationController?.isNavigationBarHidden = true
         configureMapView()
+        configureIndicatorView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -84,12 +89,10 @@ class MapViewController: UIViewController {
         storeModel.getStoreInfo { [weak self] (snapShot) in
             if let self = self {
                 
-                
                 for document in snapShot.documents {
 
                         let storeData = document.data()
                         guard let latitude = storeData["latitude"] as? Double, let longitude = storeData["longitude"] as? Double, let storeName = storeData["storeName"] as? String, let storeImage = storeData["storeImage"] as? String, let storeReview = storeData["storeImpression"] as? String, let userId = storeData["userId"] as? String else { return }
-
 
                         self.configureMakerInMap(latitude: latitude, longitude: longitude, storeName: storeName, count: self.count, storeReview: storeReview, storeImage: storeImage, userId: userId)
                         self.count += 1
@@ -97,7 +100,6 @@ class MapViewController: UIViewController {
                     }
                 
             }
-            
             
         }
         
@@ -111,17 +113,38 @@ class MapViewController: UIViewController {
         marker.title = storeName
         marker.identifier = count
         marker.map = mapView.mapView
-        configureArrays(storeName: storeName, storeReview: storeReview, storeImage: storeImage, count: count, userId: userId)
+        configureArrays(storeName: storeName, storeReview: storeReview, storeImage: storeImage, count: count, userId: userId, latitude: latitude, longitude: longitude)
         print("ウヘヘ")
         
         
     }
     
-    func configureArrays(storeName: String, storeReview: String, storeImage: String, count: Int, userId: String) {
+    func configureArrays(storeName: String, storeReview: String, storeImage: String, count: Int, userId: String, latitude: Double, longitude: Double) {
         self.storeName.append(storeName)
         self.storeReview.append(storeReview)
         self.storeImage.append(storeImage)
         self.userIdArray.append(userId)
+        self.latitudeArray.append(latitude)
+        self.longitudeArray.append(longitude)
+    }
+    
+    func configureIndicatorView() {
+        
+        translucentView = UIView()
+        translucentView.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.5)
+        translucentView.frame.size = CGSize(width: 150, height: 150)
+        translucentView.layer.cornerRadius = 20
+        translucentView.center = view.center
+        translucentView.isHidden = true
+        
+        activityIndicatorView = UIActivityIndicatorView()
+        activityIndicatorView.hidesWhenStopped = true
+        activityIndicatorView.center = translucentView.center
+        activityIndicatorView.style = .large
+        activityIndicatorView.color = UIColor(red: 44/255, green: 169/255, blue: 225/255, alpha: 1)
+        view.addSubview(translucentView)
+        view.addSubview(activityIndicatorView)
+        
     }
     
     // MARK: Selectors
@@ -160,18 +183,28 @@ extension MapViewController: MapViewDelegate {
 extension MapViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        
+        translucentView.isHidden = false
+        activityIndicatorView.startAnimating()
+        self.mapView.isUserInteractionEnabled = false
         let userId = userIdArray[marker.identifier]
         storeModel.getPostUserInfo(userId: userId) { [weak self] (snapShot) in
             if let self = self {
-                let userInfo = snapShot.data()
-                guard let postUserName = userInfo!["userName"] as? String, let postUserIcon = userInfo!["userImage"] as? String else { return }
+                if snapShot.data() == nil {
+                    MapViewController.postUserName = "名無しさん"
+                } else {
+                    let userInfo = snapShot.data()
+                    guard let postUserName = userInfo!["userName"] as? String, let postUserIcon = userInfo!["userImage"] as? String else { return }
+                    MapViewController.postUserName = postUserName
+                    MapViewController.postUserIcon = postUserIcon
+                }
                 
-                MapViewController.postUserName = postUserName
-                MapViewController.postUserIcon = postUserIcon
-                let navStoreDetailViewController = UINavigationController(rootViewController: StoreDetailViewController(storeName: self.storeName[marker.identifier], storeReview: self.storeReview[marker.identifier], storeImage: self.storeImage[marker.identifier], count: self.count, userId: self.userIdArray[marker.identifier]))
+                let navStoreDetailViewController = UINavigationController(rootViewController: StoreDetailViewController(storeName: self.storeName[marker.identifier], storeReview: self.storeReview[marker.identifier], storeImage: self.storeImage[marker.identifier], count: self.count, userId: self.userIdArray[marker.identifier], latitude: self.latitudeArray[marker.identifier], longitude: self.longitudeArray[marker.identifier]))
                 navStoreDetailViewController.modalPresentationStyle = .fullScreen
-                self.present(navStoreDetailViewController, animated: true, completion: nil)
+                self.present(navStoreDetailViewController, animated: true) {
+                    self.translucentView.isHidden = true
+                    self.activityIndicatorView.stopAnimating()
+                    self.mapView.isUserInteractionEnabled = true
+                }
                 print("did tap info window of maker..")
             }
         }

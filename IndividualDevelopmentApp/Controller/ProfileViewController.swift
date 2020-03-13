@@ -11,9 +11,14 @@ import UIKit
 class ProfileViewController: UIViewController {
     
     // MARK: - Properties
+    var translucentView: UIView!
+    var activityIndicatorView: UIActivityIndicatorView!
     var profileView: ProfileView!
     var imageViewTapGesture: UITapGestureRecognizer!
+    var textFieldCountRemaining: Int!
+    let textFieldMaxString = 10
     let userProfile = UserProfile()
+    
     
     // MARK: - Init
     override func loadView() {
@@ -40,7 +45,9 @@ class ProfileViewController: UIViewController {
         
         view.backgroundColor = .white
         profileView = ProfileView()
+        profileView.userNameTextFeild.delegate = self
         view.addSubview(profileView)
+        configureIndicatorView()
         configureImageTapGesture() // 50行目
         getUserInfo()
         
@@ -63,6 +70,25 @@ class ProfileViewController: UIViewController {
         imagePicker.allowsEditing = true
         imagePicker.sourceType = .photoLibrary
         present(imagePicker, animated: true, completion: nil)
+        
+    }
+    
+    func configureIndicatorView() {
+        
+        translucentView = UIView()
+        translucentView.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.5)
+        translucentView.frame.size = CGSize(width: 150, height: 150)
+        translucentView.layer.cornerRadius = 20
+        translucentView.center = view.center
+        translucentView.isHidden = true
+        
+        activityIndicatorView = UIActivityIndicatorView()
+        activityIndicatorView.hidesWhenStopped = true
+        activityIndicatorView.center = translucentView.center
+        activityIndicatorView.style = .large
+        activityIndicatorView.color = UIColor(red: 44/255, green: 169/255, blue: 225/255, alpha: 1)
+        view.addSubview(translucentView)
+        view.addSubview(activityIndicatorView)
         
     }
     
@@ -94,10 +120,22 @@ class ProfileViewController: UIViewController {
     // ユーザーの名前とアイコン画像を変更しFirebaseに保存するメソッド
     @objc func registerUserInfo() {
         
+        translucentView.isHidden = false
+        activityIndicatorView.startAnimating()
+        profileView.userImage.isUserInteractionEnabled = false
+        profileView.userNameTextFeild.isEnabled = false
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        navigationItem.leftBarButtonItem?.isEnabled = false
         print("did tap..")
         if profileView.userNameTextFeild.text == "" {
             
             print("No")
+            translucentView.isHidden = true
+            profileView.userImage.isUserInteractionEnabled = true
+            profileView.userNameTextFeild.isEnabled = true
+            navigationItem.rightBarButtonItem?.isEnabled = true
+            navigationItem.leftBarButtonItem?.isEnabled = true
+            activityIndicatorView.stopAnimating()
             let alertController = UIAlertController(title: "エラー", message: "ユーザー名が記入されていません", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
             present(alertController, animated: true, completion: nil)
@@ -111,8 +149,17 @@ class ProfileViewController: UIViewController {
                     return }
                 
                 print("did unwrap..")
-                self.userProfile.registerUserInfo(withUserName: self.profileView.userNameTextFeild.text!, userImage: url)
-                self.dismiss(animated: true, completion: nil)
+                self.userProfile.registerUserInfo(withUserName: self.profileView.userNameTextFeild.text!, userImage: url) {
+                    self.dismiss(animated: true) {
+                        self.translucentView.isHidden = true
+                        self.activityIndicatorView.stopAnimating()
+                        self.profileView.userNameTextFeild.isEnabled = true
+                        self.profileView.userImage.isUserInteractionEnabled = true
+                        self.navigationItem.rightBarButtonItem?.isEnabled = true
+                        self.navigationItem.leftBarButtonItem?.isEnabled = true
+                    }
+                }
+                
             }
             
         }
@@ -124,6 +171,28 @@ class ProfileViewController: UIViewController {
         print("image view was tapped..")
         configureImagePicker() // 64行目
         
+    }
+    
+}
+
+extension ProfileViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        guard let text = textField.text, let isUndoing = textField.undoManager?.isUndoing,
+        let isRedoing = textField.undoManager?.isRedoing else { return }
+        
+        
+        textFieldCountRemaining = textFieldMaxString - text.count
+        profileView.textFieldCountLabel.text = "残り\(textFieldCountRemaining!)文字"
+        
+        if textField.markedTextRange == nil && text.count > textFieldMaxString && !isRedoing && !isUndoing {
+            let endIndex = text.index(text.startIndex, offsetBy: textFieldMaxString)
+            textField.text = String(text[..<endIndex])
+        }
     }
     
 }

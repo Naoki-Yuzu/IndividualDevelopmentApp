@@ -12,6 +12,10 @@ class RegisterRestaurantViewController: UIViewController {
     
     // MARK: - Properties
     let storeModel = RegisterStore()
+    let textFieldMaxString = 20
+    let textViewMaxString = 100
+    var textFieldCountRemaining: Int!
+    var textViewCountRemaining: Int!
     var activityIndicatorView: UIActivityIndicatorView!
     var registerRestaurantView: RegisterRestaurantView!
     var imageViewTapGesture: UITapGestureRecognizer!
@@ -48,6 +52,7 @@ class RegisterRestaurantViewController: UIViewController {
         
         registerRestaurantView = RegisterRestaurantView()
         registerRestaurantView.impressionTextView.delegate = self
+        registerRestaurantView.storeNameTextField.delegate = self
         registerRestaurantView.backgroundColor = .red
         view.addSubview(registerRestaurantView)
         
@@ -187,11 +192,45 @@ extension RegisterRestaurantViewController: UIImagePickerControllerDelegate, UIN
     
 }
 
+extension RegisterRestaurantViewController: UITextFieldDelegate {
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        
+        guard let text = textField.text, let isUndoing = textField.undoManager?.isUndoing,
+        let isRedoing = textField.undoManager?.isRedoing else { return }
+        
+        
+        textFieldCountRemaining = textFieldMaxString - text.count
+        registerRestaurantView.textFeildCountLabel.text = "残り\(textFieldCountRemaining!)文字"
+        
+        if textField.markedTextRange == nil && text.count > textFieldMaxString && !isRedoing && !isUndoing {
+            let endIndex = text.index(text.startIndex, offsetBy: textFieldMaxString)
+            textField.text = String(text[..<endIndex])
+        }
+        
+    }
+    
+}
+
 extension RegisterRestaurantViewController: UITextViewDelegate {
 
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         editingTextView = textView
         return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        print("hello..")
+        guard let text = textView.text, let isUndoing = textView.undoManager?.isUndoing,
+        let isRedoing = textView.undoManager?.isRedoing else { return }
+        
+        textViewCountRemaining =  textViewMaxString - text.count
+        registerRestaurantView.textViewCountLabel.text = "残り\(textViewCountRemaining!)文字"
+        
+        if textView.markedTextRange == nil && textView.text.count > textViewMaxString && !isRedoing && !isUndoing {
+            let endIndex = text.index(text.startIndex, offsetBy: textViewMaxString)
+            textView.text = String(text[..<endIndex])
+        }
     }
 
 }
