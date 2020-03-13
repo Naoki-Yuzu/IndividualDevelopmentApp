@@ -76,7 +76,7 @@ class RegisterRestaurantScrollView: UIScrollView {
         func configureSubView() {
             
             storeNameLabel = OriginalLabel(textOfLabel: "店舗名", textColor: .black, fontAndSize: .boldSystemFont(ofSize: 15))
-            storeNameTextField = OriginalTextField(placeholderText: "〇〇店", textColor: .black)
+            storeNameTextField = OriginalTextField(placeholderText: "〇〇店", pleceholderTextColor: .lightGray ,textColor: .black)
             storeImageLabel = OriginalLabel(textOfLabel: "写真", textColor: .black, fontAndSize: .boldSystemFont(ofSize: 15))
             storeImage = OriginalImageView(withImage: UIImage(named: "no_image_icon")!, cornerRadius: 20)
             storeNameTextField.addLine(position: .LINE_POSITION_BOTTOM, color: .black, width: 1)

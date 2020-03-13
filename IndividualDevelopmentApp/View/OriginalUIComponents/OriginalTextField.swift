@@ -13,9 +13,9 @@ class OriginalTextField: UITextField {
     
     // MARK: - Inits
     /* キーボードタイプを指定しない場合 */
-    init(placeholderText: String, textColor: UIColor) {
+    init(placeholderText: String, pleceholderTextColor: UIColor ,textColor: UIColor) {
         super.init(frame: CGRect())
-        super.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        super.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSAttributedString.Key.foregroundColor: pleceholderTextColor])
         super.textColor = textColor
     }
     

@@ -55,12 +55,12 @@ class SignUpView: UIView {
         
         passwordLabel = OriginalLabel(textOfLabel: "パスワード", textColor: .black, fontAndSize: UIFont.boldSystemFont(ofSize: 10))
         
-        passwordTextField = OriginalTextField(placeholderText: "半角英数字6文字以上", textColor: .black)
+        passwordTextField = OriginalTextField(placeholderText: "半角英数字6文字以上", pleceholderTextColor: .lightGray ,textColor: .black)
         passwordTextField.delegate = self
         passwordTextField.isSecureTextEntry = true
         passwordTextField.addLine(position: .LINE_POSITION_BOTTOM, color: .black, width: 1)
 
-        conformPasswordTextFeild = OriginalTextField(placeholderText: "確認", textColor: .black)
+        conformPasswordTextFeild = OriginalTextField(placeholderText: "確認", pleceholderTextColor: .lightGray ,textColor: .black)
         conformPasswordTextFeild.delegate = self
         conformPasswordTextFeild.isSecureTextEntry = true
         conformPasswordTextFeild.addLine(position: .LINE_POSITION_BOTTOM, color: .black, width: 1)

@@ -59,6 +59,7 @@ class ProfileView: UIView {
         userImage = OriginalImageView(withImage: UIImage(named: "profile_icon")!, cornerRadius: 50)
         userNameLabel = OriginalLabel(textOfLabel: "ユーザー名", textColor: .black, fontAndSize: .boldSystemFont(ofSize: 16))
         userNameTextFeild = UITextField()
+        userNameTextFeild.textColor = .black
         userNameTextFeild.addLine(position: .LINE_POSITION_BOTTOM, color: .black, width: 1)
         userNameTextFeild.delegate = self
         
