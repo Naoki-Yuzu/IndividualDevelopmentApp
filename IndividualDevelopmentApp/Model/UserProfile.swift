@@ -48,7 +48,7 @@ class UserProfile {
     }
     
     // ユーザーのアイコン画像のURLと名前をCloudFirestoreに保存するメソッド
-    func registerUserInfo(withUserName name: String, userImage: String) {
+    func registerUserInfo(withUserName name: String, userImage: String, completion: @escaping ()-> Void) {
         
         guard let user = Auth.auth().currentUser else { return }
         db.collection("Users").document("\(user.uid)").setData([
@@ -59,6 +59,7 @@ class UserProfile {
                 print("error..")
             } else {
                 print("completed..")
+                completion()
             }
         }
       

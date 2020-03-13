@@ -15,6 +15,7 @@ class ProfileView: UIView {
     var userNameTextFeild: UITextField!
     var userNameLabel: UILabel!
     var profileViewController: UIViewController!
+    var textFieldCountLabel: UILabel!
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -36,7 +37,8 @@ class ProfileView: UIView {
         userImage.translatesAutoresizingMaskIntoConstraints = false
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
         userNameTextFeild.translatesAutoresizingMaskIntoConstraints = false
-
+        textFieldCountLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         userImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 200).isActive = true
         userImage.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         userImage.heightAnchor.constraint(equalToConstant: 100).isActive = true
@@ -52,6 +54,11 @@ class ProfileView: UIView {
         userNameTextFeild.heightAnchor.constraint(equalToConstant: 40).isActive = true
         userNameTextFeild.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7).isActive = true
         
+        textFieldCountLabel.trailingAnchor.constraint(equalTo: userNameTextFeild.trailingAnchor).isActive = true
+        textFieldCountLabel.topAnchor.constraint(equalTo: userNameTextFeild.bottomAnchor, constant: 5).isActive = true
+        textFieldCountLabel.heightAnchor.constraint(equalToConstant: 13).isActive = true
+        textFieldCountLabel.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        
     }
     
     func configureSubView() {
@@ -61,11 +68,13 @@ class ProfileView: UIView {
         userNameTextFeild = UITextField()
         userNameTextFeild.textColor = .black
         userNameTextFeild.addLine(position: .LINE_POSITION_BOTTOM, color: .black, width: 1)
-        userNameTextFeild.delegate = self
+        
+        textFieldCountLabel = OriginalLabel(textOfLabel: "残り10文字", textColor: .black, fontAndSize: .systemFont(ofSize: 10))
         
         addSubview(userNameLabel)
         addSubview(userImage)
         addSubview(userNameTextFeild)
+        addSubview(textFieldCountLabel)
         
     }
     
@@ -77,13 +86,4 @@ extension ProfileView {
         self.endEditing(true)
     }
     
-}
-
-// MARK: - Delegate
-extension ProfileView: UITextFieldDelegate {
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-    }
-
 }
