@@ -53,7 +53,7 @@ class MapViewController: UIViewController {
         
         storeName.removeAll()
         storeReview.removeAll()
-        storeName.removeAll()
+        storeImage.removeAll()
         userIdArray.removeAll()
         latitudeArray.removeAll()
         longitudeArray.removeAll()

@@ -14,6 +14,7 @@
 		B0470CC52414C3B30012E7E8 /* ConfirmEmailViewControllerInLogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0470CC42414C3B30012E7E8 /* ConfirmEmailViewControllerInLogIn.swift */; };
 		B04A1BAC240CDD8400E427B8 /* RegisterRestaurantScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04A1BAB240CDD8400E427B8 /* RegisterRestaurantScrollView.swift */; };
 		B04A1BB0240D400300E427B8 /* RegisterStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04A1BAF240D400300E427B8 /* RegisterStore.swift */; };
+		B05C82AE241CAA6B00B52BB7 /* DeleteUserAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05C82AD241CAA6B00B52BB7 /* DeleteUserAccount.swift */; };
 		B0624EA0240F8F3300FF6A3A /* StoreDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0624E9F240F8F3300FF6A3A /* StoreDetailViewController.swift */; };
 		B0624EA2240F8F8400FF6A3A /* StoreDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0624EA1240F8F8400FF6A3A /* StoreDetailView.swift */; };
 		B062F1A4240A8B91005A8B3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B062F1A3240A8B91005A8B3C /* AppDelegate.swift */; };
@@ -62,6 +63,7 @@
 		B0470CC42414C3B30012E7E8 /* ConfirmEmailViewControllerInLogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailViewControllerInLogIn.swift; sourceTree = "<group>"; };
 		B04A1BAB240CDD8400E427B8 /* RegisterRestaurantScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRestaurantScrollView.swift; sourceTree = "<group>"; };
 		B04A1BAF240D400300E427B8 /* RegisterStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterStore.swift; sourceTree = "<group>"; };
+		B05C82AD241CAA6B00B52BB7 /* DeleteUserAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserAccount.swift; sourceTree = "<group>"; };
 		B0624E9F240F8F3300FF6A3A /* StoreDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailViewController.swift; sourceTree = "<group>"; };
 		B0624EA1240F8F8400FF6A3A /* StoreDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailView.swift; sourceTree = "<group>"; };
 		B062F1A0240A8B91005A8B3C /* IndividualDevelopmentApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IndividualDevelopmentApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -198,6 +200,7 @@
 				B04A1BAF240D400300E427B8 /* RegisterStore.swift */,
 				B0D9FA272410F52D00137F6C /* GetStoreInfo.swift */,
 				B02FDF02241B60360023526E /* RestaurantManegerInFirebsae.swift */,
+				B05C82AD241CAA6B00B52BB7 /* DeleteUserAccount.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				B062F1CC240AA6ED005A8B3C /* LogInView.swift in Sources */,
 				B062F1CE240AA6F7005A8B3C /* MapView.swift in Sources */,
 				B062F1D6240AA75F005A8B3C /* SignUpView.swift in Sources */,
+				B05C82AE241CAA6B00B52BB7 /* DeleteUserAccount.swift in Sources */,
 				B062F1E0240AAACC005A8B3C /* UserProfile.swift in Sources */,
 				B062F1DC240AA970005A8B3C /* SignOutUser.swift in Sources */,
 				B02FDF03241B60360023526E /* RestaurantManegerInFirebsae.swift in Sources */,
