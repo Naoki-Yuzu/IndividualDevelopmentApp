@@ -29,11 +29,13 @@ class MapViewController: UIViewController {
     var userIdArray: [String] = []
     var latitudeArray: [Double] = []
     var longitudeArray: [Double] = []
+    var markerArray: [GMSMarker] = []
     var count = 0
     var storeCount = 0
     var viewTapGesture: UITapGestureRecognizer!
     var translucentView: UIView!
     var activityIndicatorView: UIActivityIndicatorView!
+    var storeDetailViewController: StoreDetailViewController!
     
     // MARK: - Helper Functions
     override func viewWillAppear(_ animated: Bool) {
@@ -103,12 +105,10 @@ class MapViewController: UIViewController {
 
                         let storeData = document.data()
                         guard let latitude = storeData["latitude"] as? Double, let longitude = storeData["longitude"] as? Double, let storeName = storeData["storeName"] as? String, let storeImage = storeData["storeImage"] as? String, let storeReview = storeData["storeImpression"] as? String, let userId = storeData["userId"] as? String else { return }
-
                         self.configureMakerInMap(latitude: latitude, longitude: longitude, storeName: storeName, count: self.count, storeReview: storeReview, storeImage: storeImage, userId: userId)
                         self.count += 1
 
                     }
-                
             }
             
         }
@@ -123,8 +123,8 @@ class MapViewController: UIViewController {
         marker.title = storeName
         marker.identifier = count
         marker.map = mapView.mapView
+        markerArray.append(marker)
         configureArrays(storeName: storeName, storeReview: storeReview, storeImage: storeImage, count: count, userId: userId, latitude: latitude, longitude: longitude)
-        print("ウヘヘ")
         
         
     }
@@ -207,8 +207,9 @@ extension MapViewController: GMSMapViewDelegate {
                     MapViewController.postUserName = postUserName
                     MapViewController.postUserIcon = postUserIcon
                 }
-                
-                let navStoreDetailViewController = UINavigationController(rootViewController: StoreDetailViewController(storeName: self.storeName[marker.identifier], storeReview: self.storeReview[marker.identifier], storeImage: self.storeImage[marker.identifier], count: self.count, userId: self.userIdArray[marker.identifier], latitude: self.latitudeArray[marker.identifier], longitude: self.longitudeArray[marker.identifier]))
+                self.storeDetailViewController = StoreDetailViewController(storeName: self.storeName[marker.identifier], storeReview: self.storeReview[marker.identifier], storeImage: self.storeImage[marker.identifier], count: marker.identifier, userId: self.userIdArray[marker.identifier], latitude: self.latitudeArray[marker.identifier], longitude: self.longitudeArray[marker.identifier])
+                self.storeDetailViewController.delegate = self
+                let navStoreDetailViewController = UINavigationController(rootViewController: self.storeDetailViewController)
                 navStoreDetailViewController.modalPresentationStyle = .fullScreen
                 self.present(navStoreDetailViewController, animated: true) {
                     self.translucentView.isHidden = true
@@ -223,6 +224,11 @@ extension MapViewController: GMSMapViewDelegate {
     
 }
 
-extension UIViewController {
+extension MapViewController: StoreDetailViewControllerDelegate {
+    
+    func deleteMarker(withIdentifier count: Int) {
+        let marker = markerArray[count]
+        marker.map = nil
+    }
     
 }

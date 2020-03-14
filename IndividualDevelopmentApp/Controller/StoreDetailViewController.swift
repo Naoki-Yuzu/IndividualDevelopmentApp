@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol StoreDetailViewControllerDelegate {
+    
+    func deleteMarker(withIdentifier count: Int)
+    
+}
+
 class StoreDetailViewController: UIViewController {
     
     //MARK: - Properties
@@ -22,6 +28,7 @@ class StoreDetailViewController: UIViewController {
     var mapURLString: String!
     var translucentView: UIView!
     var activityIndicatorView: UIActivityIndicatorView!
+    var delegate: StoreDetailViewControllerDelegate?
     let restaurantManeger = RestaurantManegerInFirebsae()
     
     init(storeName: String, storeReview: String, storeImage: String, count: Int, userId: String, latitude: Double, longitude: Double) {
@@ -44,7 +51,7 @@ class StoreDetailViewController: UIViewController {
         super.viewWillAppear(animated)
         
         if restaurantManeger.CurrentUserAndPostUserIsEquel(withUserID: userId) {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "削除", style: .plain, target: self, action: #selector(deleteRestaurant))
+            storeDetailView.deleteStoreButton.isHidden = false
         }
     }
     
@@ -99,6 +106,8 @@ class StoreDetailViewController: UIViewController {
         storeDetailView.storeImpresstionLabel.text = self.storeReview
         storeDetailView.postUserName.text = MapViewController.postUserName
         
+        storeDetailView.deleteStoreButton.addTarget(self, action: #selector(deleteRestaurant), for: .touchUpInside)
+        
         view.addSubview(storeDetailView)
     }
     
@@ -106,9 +115,8 @@ class StoreDetailViewController: UIViewController {
         
         navigationController?.navigationBar.isTranslucent = false
         navigationItem.title = "詳細画面"
-        let leftNav1 = UIBarButtonItem(title: "戻る", style: .plain, target: self, action: #selector(back))
-        let leftNav2 = UIBarButtonItem(title: "ナビ開始", style: .plain, target: self, action: #selector(startNav))
-        navigationItem.setLeftBarButtonItems([leftNav1, leftNav2], animated: true)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "戻る", style: .plain, target: self, action: #selector(back))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "ナビ開始", style: .plain, target: self, action: #selector(startNav))
         
     }
     
@@ -141,27 +149,28 @@ class StoreDetailViewController: UIViewController {
         
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] (_) in
             guard let self = self else { return }
-            self.navigationItem.leftBarButtonItems?.first?.isEnabled = false
-            self.navigationItem.leftBarButtonItems?.last?.isEnabled = false
+            self.navigationItem.leftBarButtonItem?.isEnabled = false
             self.navigationItem.rightBarButtonItem?.isEnabled = false
+            self.storeDetailView.deleteStoreButton.isEnabled = false
             self.translucentView.isHidden = false
             self.activityIndicatorView.startAnimating()
             self.restaurantManeger.deleteRestaurant(withStoreName: self.storeName, ifErrorMessage: { (errorMessage) in
-                self.navigationItem.leftBarButtonItems?.first?.isEnabled = true
-                self.navigationItem.leftBarButtonItems?.last?.isEnabled = true
                 self.navigationItem.leftBarButtonItem?.isEnabled = true
+                self.navigationItem.leftBarButtonItem?.isEnabled = true
+                self.storeDetailView.deleteStoreButton.isEnabled = true
                 self.translucentView.isHidden = true
                 self.activityIndicatorView.stopAnimating()
                 UIViewController.noticeAlert(viewController: self, alertTitle: "エラーメッセージ", alertMessage: errorMessage)
             }, completion: {
                 self.translucentView.isHidden = true
                 self.activityIndicatorView.stopAnimating()
+                self.delegate?.deleteMarker(withIdentifier: self.count)
                 let alertController = UIAlertController(title: "メッセージ", message: "削除しました", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "ok", style: .default, handler: { (_) in
                     self.dismiss(animated: true) {
-                        self.navigationItem.leftBarButtonItems?.first?.isEnabled = true
-                        self.navigationItem.leftBarButtonItems?.last?.isEnabled = true
                         self.navigationItem.leftBarButtonItem?.isEnabled = true
+                        self.navigationItem.leftBarButtonItem?.isEnabled = true
+                        self.storeDetailView.deleteStoreButton.isEnabled = true
                     }
                 }))
                 self.present(alertController, animated: true, completion: nil)

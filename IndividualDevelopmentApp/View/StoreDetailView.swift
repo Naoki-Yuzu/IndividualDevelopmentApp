@@ -26,6 +26,7 @@ class StoreDetailView: UIView {
     var storeImageView: OriginalImageView!
     var storeImpresstionTitleLabel: OriginalLabel!
     var storeImpresstionLabel: OriginalLabel!
+    var deleteStoreButton: OriginalButton!
     
     //MARK: - Init
     init() {
@@ -67,8 +68,10 @@ class StoreDetailView: UIView {
         
 //        splitView2.frame = CGRect(x: scrollView.bounds.width * 0.1, y: storeNameLabel.bounds.height + line.bounds.height + storeImageView.bounds.height + line2.bounds.height + postUserView.bounds.height + line4.bounds.height + 120 , width: scrollView.bounds.width * 0.8, height: 400)
         let splitViewOriginY = storeNameLabel.bounds.height + line.bounds.height + storeImageView.bounds.height + line2.bounds.height + postUserView.bounds.height + line4.bounds.height
-        
+    
         splitView2.frame = CGRect(x: scrollView.bounds.width * 0.1, y: splitViewOriginY + 120, width: scrollView.bounds.width * 0.8, height: 400)
+        
+        deleteStoreButton.frame = CGRect(x: scrollView.bounds.width * 0.4, y: splitViewOriginY + splitView2.bounds.height + 140, width: scrollView.bounds.width * 0.2, height: 40)
         
         storeImpresstionTitleLabel.frame = CGRect(x: splitView2.bounds.width * 0.15, y: splitView2.bounds.origin.y + 20, width: splitView2.bounds.width * 0.7, height: 20)
         
@@ -82,7 +85,7 @@ class StoreDetailView: UIView {
         storeImpresstionLabel.frame = rect
         
         
-        scrollView.contentSize = CGSize(width: splitView.bounds.width, height: splitViewOriginY + splitView2.bounds.height + 140)
+        scrollView.contentSize = CGSize(width: splitView.bounds.width, height: splitViewOriginY + splitView2.bounds.height + deleteStoreButton.bounds.height + 160)
         
     }
     
@@ -136,7 +139,7 @@ class StoreDetailView: UIView {
         storeImpresstionTitleLabel = OriginalLabel(textOfLabel: "投稿者のレビュー", textColor: .black, fontAndSize: .boldSystemFont(ofSize: 15))
         storeImpresstionTitleLabel.textAlignment = .center
         
-        storeImpresstionLabel = OriginalLabel(textOfLabel: "のふふもふもふもふもふおふおふもふもふfもふもふいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいい", textColor: .black, fontAndSize: .systemFont(ofSize: 15))
+        storeImpresstionLabel = OriginalLabel(textOfLabel: "", textColor: .black, fontAndSize: .systemFont(ofSize: 15))
         storeImpresstionLabel.numberOfLines = 0
         
         // Create a new Attributed String
@@ -147,6 +150,8 @@ class StoreDetailView: UIView {
             NSRange.init(location: 0, length: attributedString.length));
         storeImpresstionLabel.attributedText = attributedString
 
+        deleteStoreButton = OriginalButton(title: "削除", titleColor: .white, fontAndSize: UIFont.systemFont(ofSize: 15), backgroundColor: UIColor(red: 255/255, green: 69/255, blue: 0/255, alpha: 1))
+        deleteStoreButton.isHidden = true
         
         addSubview(splitView)
         splitView.addSubview(scrollView)
@@ -160,6 +165,7 @@ class StoreDetailView: UIView {
         postUserView.addSubview(postUserName)
         scrollView.addSubview(line4)
         scrollView.addSubview(splitView2)
+        scrollView.addSubview(deleteStoreButton)
         splitView2.addSubview(storeImpresstionTitleLabel)
         splitView2.addSubview(line3)
         splitView2.addSubview(storeImpresstionLabel)
