@@ -28,7 +28,7 @@ class UserProfile {
         metaData.contentType = "image/jpg"
         
         // 画像をアップロード
-        userProfileImageFile.putData(uploadData, metadata: metaData) { (metaData, error) in
+        userProfileImageFile.putData(uploadData, metadata: metaData) { (_, error) in
             
             guard error == nil else { return }
             print("No error..")

@@ -91,10 +91,6 @@ class ContainerController: UIViewController {
             let navProfileViewController = UINavigationController(rootViewController: ProfileViewController())
             navProfileViewController.modalPresentationStyle = .fullScreen
             present(navProfileViewController, animated: true, completion: nil)
-        case .Signout:
-            mapViewController.mapView.isUserInteractionEnabled = true
-            mapViewController.view.isUserInteractionEnabled = true
-            SignOutAlert()
         case .Register:
             mapViewController.mapView.isUserInteractionEnabled = true
             mapViewController.view.isUserInteractionEnabled = true
@@ -102,6 +98,14 @@ class ContainerController: UIViewController {
             let navRegisterRestaurantViewController = UINavigationController(rootViewController: registerRestaurantViewController)
             navRegisterRestaurantViewController.modalPresentationStyle = .fullScreen
             present(navRegisterRestaurantViewController, animated: true, completion: nil)
+        case .Signout:
+            mapViewController.mapView.isUserInteractionEnabled = true
+            mapViewController.view.isUserInteractionEnabled = true
+            SignOutAlert()
+        case .Delete:
+            mapViewController.mapView.isUserInteractionEnabled = true
+            mapViewController.view.isUserInteractionEnabled = true
+            deleteAccountAlert()
         }
         
     }
@@ -109,14 +113,53 @@ class ContainerController: UIViewController {
     func SignOutAlert() {
         
         let alertController = UIAlertController(title: "メッセージ", message: "本当にログアウトしてもよろしいですか？", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "ok", style: .default, handler: {(_) in
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {(_) in
             self.signOutUser.signOutUser {
                 self.navigationController?.pushViewController(SignUpController(), animated: true)
             }
         }))
-        alertController.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: "キャンセル", style: .default, handler: nil))
         self.present(alertController, animated: true, completion: nil)
 
+        
+    }
+    
+    func deleteAccountAlert() {
+        
+        let alertController = UIAlertController(title: "警告", message: "本当にアカウントを削除してもよろしいですか？\nまた今まで投稿した内容は、自動的には削除されません。", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {(_) in
+            
+            self.mapViewController.activityIndicatorView.startAnimating()
+            self.mapViewController.translucentView.isHidden = false
+            self.mapViewController.mapView.isUserInteractionEnabled = false
+            self.mapViewController.mapView.sideMenuButton.isEnabled = false
+            
+            let deleteUser = DeleteUserAccount()
+            deleteUser.deleteUser(errorMessage: {(errorMessage) in
+                UIViewController.noticeAlert(viewController: self, alertTitle: "サーバーエラー", alertMessage: errorMessage)
+                self.mapViewController.activityIndicatorView.stopAnimating()
+                self.mapViewController.translucentView.isHidden = true
+                self.mapViewController.mapView.isUserInteractionEnabled = true
+                self.mapViewController.mapView.sideMenuButton.isEnabled = true
+                
+            }) {
+                
+                self.mapViewController.activityIndicatorView.stopAnimating()
+                self.mapViewController.translucentView.isHidden = true
+                
+                let alertController = UIAlertController(title: "メッセージ", message: "アカウントを削除しました", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
+                    self.navigationController?.pushViewController(SignUpController(), animated: true)
+                    self.mapViewController.mapView.isUserInteractionEnabled = true
+                    self.mapViewController.mapView.sideMenuButton.isEnabled = true
+                }))
+                
+                self.present(alertController, animated: true, completion: nil)
+                
+            }
+        }))
+        alertController.addAction(UIAlertAction(title: "キャンセル", style: .default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
         
     }
 
