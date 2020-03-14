@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol StoreDetailViewControllerDelegate {
+    
+    func deleteMarker(withIdentifier count: Int)
+    
+}
+
 class StoreDetailViewController: UIViewController {
     
     //MARK: - Properties
@@ -22,6 +28,7 @@ class StoreDetailViewController: UIViewController {
     var mapURLString: String!
     var translucentView: UIView!
     var activityIndicatorView: UIActivityIndicatorView!
+    var delegate: StoreDetailViewControllerDelegate?
     let restaurantManeger = RestaurantManegerInFirebsae()
     
     init(storeName: String, storeReview: String, storeImage: String, count: Int, userId: String, latitude: Double, longitude: Double) {
@@ -156,6 +163,7 @@ class StoreDetailViewController: UIViewController {
             }, completion: {
                 self.translucentView.isHidden = true
                 self.activityIndicatorView.stopAnimating()
+                self.delegate?.deleteMarker(withIdentifier: self.count)
                 let alertController = UIAlertController(title: "メッセージ", message: "削除しました", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "ok", style: .default, handler: { (_) in
                     self.dismiss(animated: true) {
