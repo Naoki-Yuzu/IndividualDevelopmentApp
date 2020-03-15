@@ -57,10 +57,10 @@ class MapViewController: UIViewController {
         userIdArray.removeAll()
         latitudeArray.removeAll()
         longitudeArray.removeAll()
+        markerArray.removeAll()
         view.backgroundColor = .gray
         navigationController?.isNavigationBarHidden = true
         configureMapView()
-        configureIndicatorView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -73,13 +73,15 @@ class MapViewController: UIViewController {
     
     func configureMapView() {
         let localMapview = MapView()
+        localMapview.reloadMapButton.addTarget(self, action: #selector(reloadMarkerInMap), for: .touchUpInside)
         localMapview.delegate = self
         localMapview.mapView.delegate = self
         mapView = localMapview
         view.addSubview(mapView)
         view.isUserInteractionEnabled = true
         print("called configureUIView in MapViewController..")
-            
+        
+        configureIndicatorView()
         getStoresData()
         
     }
@@ -96,9 +98,16 @@ class MapViewController: UIViewController {
     
     func getStoresData() {
         
+        mapView.isUserInteractionEnabled = false
+        translucentView.isHidden = false
+        activityIndicatorView.startAnimating()
         print("start get stores data..")
         storeModel = GetStoreInfo()
-        storeModel.getStoreInfo { [weak self] (snapShot) in
+        storeModel.getStoreInfo(ifError: {
+            self.mapView.isUserInteractionEnabled = true
+            self.translucentView.isHidden = true
+            self.activityIndicatorView.stopAnimating()
+        }) { [weak self] (snapShot) in
             if let self = self {
                 
                 for document in snapShot.documents {
@@ -109,6 +118,12 @@ class MapViewController: UIViewController {
                         self.count += 1
 
                     }
+                
+                print("kokodayo")
+                self.mapView.isUserInteractionEnabled = true
+                self.translucentView.isHidden = true
+                self.activityIndicatorView.stopAnimating()
+                
             }
             
         }
@@ -125,7 +140,6 @@ class MapViewController: UIViewController {
         marker.map = mapView.mapView
         markerArray.append(marker)
         configureArrays(storeName: storeName, storeReview: storeReview, storeImage: storeImage, count: count, userId: userId, latitude: latitude, longitude: longitude)
-        
         
     }
     
@@ -161,6 +175,22 @@ class MapViewController: UIViewController {
     @objc func hideSideMenu() {
         delegate?.hideMenu()
     }
+    
+    @objc func reloadMarkerInMap() {
+        print("tapped reload map..")
+        
+        mapView.mapView.clear()
+        storeName.removeAll()
+        storeReview.removeAll()
+        storeImage.removeAll()
+        userIdArray.removeAll()
+        latitudeArray.removeAll()
+        longitudeArray.removeAll()
+        markerArray.removeAll()
+        count = 0
+        storeCount = 0
+        getStoresData()
+    }
 
 }
 
@@ -182,6 +212,7 @@ extension MapViewController: MapViewDelegate {
     
     
     func showOrHideSideMenu() {
+        mapView.reloadMapButton.isEnabled = false
         print("came map view controller..")
         delegate?.showOrHideSideMenu()
         configureViewTapGesture()

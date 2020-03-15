@@ -18,6 +18,7 @@ class ContainerController: UIViewController {
     let signOutUser = SignOutUser()
     
     // MARK: - Helper Functions
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,6 +37,7 @@ class ContainerController: UIViewController {
         
         print("configure map view controller..")
         mapViewController = MapViewController()
+//        mapViewController.mapView.reloadMapButton.addTarget(self, action: #selector(reloadMapData), for: .touchUpInside)
         mapViewController.delegate = self
         navMapViewController = UINavigationController(rootViewController: mapViewController)
         
@@ -62,12 +64,16 @@ class ContainerController: UIViewController {
             print("show menu..")
             UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseInOut, animations: {
                 self.navMapViewController.view.frame.origin.x = self.navMapViewController.view.frame.width * 0.6
-            }, completion: nil)
+            }, completion: { (_) in
+                self.mapViewController.mapView.reloadMapButton.isEnabled = true
+            })
         } else {
             print("hide menu..")
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
                 self.navMapViewController.view.frame.origin.x = 0
-            }, completion: nil)
+            }, completion: {(_) in
+                self.mapViewController.mapView.reloadMapButton.isEnabled = true
+            })
         }
     }
     
@@ -86,12 +92,14 @@ class ContainerController: UIViewController {
     func didSelectSideMenuOption(sideMenuOption: SideMenuOption) {
         switch sideMenuOption {
         case .Profile:
+            mapViewController.mapView.reloadMapButton.isEnabled = true
             mapViewController.mapView.isUserInteractionEnabled = true
             mapViewController.view.isUserInteractionEnabled = true
             let navProfileViewController = UINavigationController(rootViewController: ProfileViewController())
             navProfileViewController.modalPresentationStyle = .fullScreen
             present(navProfileViewController, animated: true, completion: nil)
         case .Register:
+            mapViewController.mapView.reloadMapButton.isEnabled = true
             mapViewController.mapView.isUserInteractionEnabled = true
             mapViewController.view.isUserInteractionEnabled = true
             let registerRestaurantViewController = RegisterRestaurantViewController()
@@ -99,10 +107,12 @@ class ContainerController: UIViewController {
             navRegisterRestaurantViewController.modalPresentationStyle = .fullScreen
             present(navRegisterRestaurantViewController, animated: true, completion: nil)
         case .Signout:
+            mapViewController.mapView.reloadMapButton.isEnabled = true
             mapViewController.mapView.isUserInteractionEnabled = true
             mapViewController.view.isUserInteractionEnabled = true
             SignOutAlert()
         case .Delete:
+            mapViewController.mapView.reloadMapButton.isEnabled = true
             mapViewController.mapView.isUserInteractionEnabled = true
             mapViewController.view.isUserInteractionEnabled = true
             deleteAccountAlert()
@@ -133,6 +143,7 @@ class ContainerController: UIViewController {
             self.mapViewController.translucentView.isHidden = false
             self.mapViewController.mapView.isUserInteractionEnabled = false
             self.mapViewController.mapView.sideMenuButton.isEnabled = false
+            self.mapViewController.mapView.reloadMapButton.isEnabled = false
             
             let deleteUser = DeleteUserAccount()
             deleteUser.deleteUser(errorMessage: {(errorMessage) in
@@ -141,6 +152,7 @@ class ContainerController: UIViewController {
                 self.mapViewController.translucentView.isHidden = true
                 self.mapViewController.mapView.isUserInteractionEnabled = true
                 self.mapViewController.mapView.sideMenuButton.isEnabled = true
+                self.mapViewController.mapView.reloadMapButton.isEnabled = true
                 
             }) {
                 
@@ -152,6 +164,7 @@ class ContainerController: UIViewController {
                     self.navigationController?.pushViewController(SignUpController(), animated: true)
                     self.mapViewController.mapView.isUserInteractionEnabled = true
                     self.mapViewController.mapView.sideMenuButton.isEnabled = true
+                    self.mapViewController.mapView.reloadMapButton.isEnabled = true
                 }))
                 
                 self.present(alertController, animated: true, completion: nil)
@@ -160,6 +173,13 @@ class ContainerController: UIViewController {
         }))
         alertController.addAction(UIAlertAction(title: "キャンセル", style: .default, handler: nil))
         self.present(alertController, animated: true, completion: nil)
+        
+    }
+    
+    //MARK: - Selctors
+    @objc func reloadMapData() {
+        
+        print("tapped reload map data..")
         
     }
 
@@ -178,7 +198,6 @@ extension ContainerController: MapViewControllerDelegate {
     
     func showOrHideSideMenu() {
         print("came container controller..")
-        
         if !isExpansion {
             configureSideMenuController()
         }

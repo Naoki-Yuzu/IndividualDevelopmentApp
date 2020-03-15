@@ -17,6 +17,7 @@ class MapView: UIView {
     
     // MARK: - Properties
     var sideMenuButton: UIButton!
+    var reloadMapButton: UIButton!
     var mapView: GMSMapView!
     var delegate: MapViewDelegate?
     var locationManager: CLLocationManager!
@@ -43,7 +44,8 @@ class MapView: UIView {
         super.layoutSubviews()
         
         mapView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
-        sideMenuButton.frame = CGRect(x: self.bounds.origin.x + 50, y: self.bounds.origin.y + 50, width: 40, height: 40)
+        sideMenuButton.frame = CGRect(x: self.bounds.origin.x + 30, y: self.bounds.origin.y + 60, width: 40, height: 40)
+        reloadMapButton.frame = CGRect(x: self.bounds.origin.x + 30, y: self.bounds.origin.y + 110, width: 40, height: 40)
     }
     
     private func configureMap() {
@@ -60,6 +62,7 @@ class MapView: UIView {
         
         getUserLocation()
         configureSideMenuButton()
+        configureReloadMapButton()
     }
     
     private func getUserLocation() {
@@ -84,6 +87,17 @@ class MapView: UIView {
         sideMenuButton.layer.cornerRadius = 8
         sideMenuButton.addTarget(self, action: #selector(showOrHideSideMenu), for: .touchUpInside)
         self.addSubview(sideMenuButton)
+        
+    }
+    
+    private func configureReloadMapButton() {
+        
+        reloadMapButton = UIButton()
+        reloadMapButton.setImage(UIImage(named: "reload_icon"), for: .normal)
+        reloadMapButton.imageView?.contentMode = .scaleAspectFill
+        reloadMapButton.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 240/255, alpha: 0.8)
+        reloadMapButton.layer.cornerRadius = 8
+        self.addSubview(reloadMapButton)
         
     }
     
