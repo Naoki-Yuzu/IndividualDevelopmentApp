@@ -48,8 +48,8 @@ class ProfileViewController: UIViewController {
         profileView.userNameTextFeild.delegate = self
         view.addSubview(profileView)
         configureIndicatorView()
-        configureImageTapGesture() // 50行目
         getUserInfo()
+        configureImageTapGesture() // 50行目
         
     }
     
@@ -90,23 +90,86 @@ class ProfileViewController: UIViewController {
         view.addSubview(translucentView)
         view.addSubview(activityIndicatorView)
         
+        
     }
     
     func getUserInfo() {
         
+        translucentView.isHidden = false
+        activityIndicatorView.startAnimating()
+        profileView.userNameTextFeild.isEnabled = false
+        profileView.userImage.isUserInteractionEnabled = false
+        navigationItem.leftBarButtonItem?.isEnabled = false
+        navigationItem.rightBarButtonItem?.isEnabled = false
         print("get user information..")
         userProfile.getUserInfo { (document) in
-            guard let userInfo = document.data() else { return }
-            self.profileView.userNameTextFeild.text = userInfo["userName"] as? String ?? "名無しさん"
-            guard let userImage = userInfo["userImage"] as? String else { return }
-            let url = URL(string: userImage)
-            do {
-                let data = try Data(contentsOf: url!)
-                self.profileView.userImage.image = UIImage(data: data)
-                print("did set user image from database..")
-            } catch _ {
-                print("error..")
+            if let userInfo = document.data() {
+                if let userImage = userInfo["userImage"] as? String {
+                    let url = URL(string: userImage)
+                    do {
+                        let data = try Data(contentsOf: url!)
+                        self.profileView.userImage.image = UIImage(data: data)
+                        self.profileView.userNameTextFeild.text = userInfo["userName"] as? String ?? "名無しさん"
+                        self.translucentView.isHidden = true
+                        self.activityIndicatorView.stopAnimating()
+                        self.profileView.userNameTextFeild.isEnabled = true
+                        self.profileView.userImage.isUserInteractionEnabled = true
+                        self.navigationItem.leftBarButtonItem?.isEnabled = true
+                        self.navigationItem.rightBarButtonItem?.isEnabled = true
+                        print("did set user image from database..")
+                    } catch _ {
+                        print("error..")
+                    }
+                } else {
+                    self.profileView.userNameTextFeild.text = userInfo["userName"] as? String ?? "名無しさん"
+                    self.translucentView.isHidden = true
+                    self.activityIndicatorView.stopAnimating()
+                    self.profileView.userNameTextFeild.isEnabled = true
+                    self.profileView.userImage.isUserInteractionEnabled = true
+                    self.navigationItem.leftBarButtonItem?.isEnabled = true
+                    self.navigationItem.rightBarButtonItem?.isEnabled = true
+                }
+            } else {
+                self.profileView.userNameTextFeild.text = "名無しさん"
+                self.translucentView.isHidden = true
+                self.activityIndicatorView.stopAnimating()
+                self.profileView.userNameTextFeild.isEnabled = true
+                self.profileView.userImage.isUserInteractionEnabled = true
+                self.navigationItem.leftBarButtonItem?.isEnabled = true
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
             }
+//            guard let userInfo = document.data() else { return }
+//            if let userImage = userInfo["userImage"] as? String {
+//                let url = URL(string: userImage)
+//                do {
+//                    let data = try Data(contentsOf: url!)
+//                    self.profileView.userImage.image = UIImage(data: data)
+//                    self.profileView.userNameTextFeild.text = userInfo["userName"] as? String ?? "名無しさん"
+//                    self.profileView.userNameTextFeild.isEnabled = true
+//                    self.profileView.userImage.isUserInteractionEnabled = true
+//                    self.navigationItem.leftBarButtonItem?.isEnabled = true
+//                    self.navigationItem.rightBarButtonItem?.isEnabled = true
+//                    print("did set user image from database..")
+//                } catch _ {
+//                    print("error..")
+//                }
+//            } else {
+//                self.profileView.userNameTextFeild.text = userInfo["userName"] as? String ?? "名無しさん"
+//                self.profileView.userNameTextFeild.isEnabled = true
+//                self.profileView.userImage.isUserInteractionEnabled = true
+//                self.navigationItem.leftBarButtonItem?.isEnabled = true
+//                self.navigationItem.rightBarButtonItem?.isEnabled = true
+//            }
+            
+//            guard let userImage = userInfo["userImage"] as? String else { return }
+//            let url = URL(string: userImage)
+//            do {
+//                let data = try Data(contentsOf: url!)
+//                self.profileView.userImage.image = UIImage(data: data)
+//                print("did set user image from database..")
+//            } catch _ {
+//                print("error..")
+//            }
             
         }
         
