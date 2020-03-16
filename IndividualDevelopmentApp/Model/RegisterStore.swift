@@ -67,7 +67,9 @@ class RegisterStore {
                     "storeImage": url.absoluteString,
                     "storeImpression": storeImpression,
                     "longitude": longitude,
-                    "latitude": latitude
+                    "latitude": latitude,
+                    "createdAt": FieldValue.serverTimestamp(),
+                    "apdateedAt": FieldValue.serverTimestamp()
                 ], merge: true) { (error) in
                     guard error == nil else { return }
                     completion()
