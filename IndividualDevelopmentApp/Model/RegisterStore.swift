@@ -18,7 +18,7 @@ class RegisterStore {
     lazy var storeImageFolder = storageRef.child("stores").child("\(userId!)")
     
     // MARK: - Methods
-    func registerStrore(storeImage: UIImage, storeName: String, storeImpression: String, longitude: Double, latitude: Double, completion: @escaping () -> Void) {
+    func registerStrore(storeImage: UIImage, storeName: String, storeImpression: String, longitude: Double, latitude: Double, completion: @escaping (String, String) -> Void) {
         
         guard let user = Auth.auth().currentUser else { return }
         userId = user.uid
@@ -72,7 +72,7 @@ class RegisterStore {
                     "apdateedAt": FieldValue.serverTimestamp()
                 ], merge: true) { (error) in
                     guard error == nil else { return }
-                    completion()
+                    completion(url.absoluteString, user.uid)
                 }
 
                 

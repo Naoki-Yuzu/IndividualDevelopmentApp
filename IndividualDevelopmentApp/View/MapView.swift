@@ -125,10 +125,8 @@ extension MapView: CLLocationManagerDelegate {
         if mapView.isHidden {
             mapView.isHidden = false
             mapView.camera = camera
-            locationManager.stopUpdatingLocation()
+            
         } else {
-            mapView.animate(to: camera)
-            locationManager.stopUpdatingLocation()
         }
     }
     

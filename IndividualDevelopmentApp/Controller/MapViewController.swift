@@ -265,3 +265,12 @@ extension MapViewController: StoreDetailViewControllerDelegate {
     }
     
 }
+
+extension MapViewController: RegisterRestaurantViewControllerDelegate {
+    func configureNewMarker(longitude: Double, latitude: Double, storeImage: String, storeName: String, storeImpression: String, userId: String) {
+        configureMakerInMap(latitude: latitude, longitude: longitude, storeName: storeName, count: self.count, storeReview: storeImpression, storeImage: storeImage, userId: userId)
+        count += 1
+    }
+    
+    
+}
