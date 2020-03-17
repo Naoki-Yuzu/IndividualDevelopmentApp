@@ -17,6 +17,7 @@ class MapView: UIView {
     
     // MARK: - Properties
     var sideMenuButton: UIButton!
+    var reloadMapButton: UIButton!
     var mapView: GMSMapView!
     var delegate: MapViewDelegate?
     var locationManager: CLLocationManager!
@@ -43,23 +44,26 @@ class MapView: UIView {
         super.layoutSubviews()
         
         mapView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
-        sideMenuButton.frame = CGRect(x: self.bounds.origin.x + 50, y: self.bounds.origin.y + 50, width: 40, height: 40)
+        sideMenuButton.frame = CGRect(x: self.bounds.origin.x + 30, y: self.bounds.origin.y + 60, width: 40, height: 40)
+        reloadMapButton.frame = CGRect(x: self.bounds.origin.x + 30, y: self.bounds.origin.y + 110, width: 40, height: 40)
     }
     
     private func configureMap() {
         print("set up map..")
         // GoogleMapの初期位置(仮で東京駅付近に設定)
-        let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude, longitude: defaultLocation.coordinate.longitude, zoom: 16)
+        let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude, longitude: defaultLocation.coordinate.longitude, zoom: 15)
         mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
-        mapView.animate(toViewingAngle: 65)
+//        mapView.animate(toViewingAngle: 65)
         print("camera of map view \(mapView.camera)")
         mapView.isMyLocationEnabled = true
         mapView.settings.myLocationButton = true
+        mapView.settings.compassButton = true
         self.addSubview(mapView)
         mapView.isHidden = true
         
         getUserLocation()
         configureSideMenuButton()
+        configureReloadMapButton()
     }
     
     private func getUserLocation() {
@@ -87,6 +91,17 @@ class MapView: UIView {
         
     }
     
+    private func configureReloadMapButton() {
+        
+        reloadMapButton = UIButton()
+        reloadMapButton.setImage(UIImage(named: "reload_icon"), for: .normal)
+        reloadMapButton.imageView?.contentMode = .scaleAspectFill
+        reloadMapButton.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 240/255, alpha: 0.8)
+        reloadMapButton.layer.cornerRadius = 8
+        self.addSubview(reloadMapButton)
+        
+    }
+    
     // MARK: - Selector
     @objc func showOrHideSideMenu() {
         print("tapped..")
@@ -104,14 +119,16 @@ extension MapView: CLLocationManagerDelegate {
         MapView.latitude = location?.coordinate.latitude
         MapView.longitude = location?.coordinate.longitude
         print("latitude\(MapView.latitude!)\nlongitude\(MapView.longitude!)")
-        
-        let camera = GMSCameraPosition.camera(withLatitude: MapView.latitude, longitude: MapView.longitude, zoom: 16)
-        
+
+        let camera = GMSCameraPosition.camera(withLatitude: MapView.latitude, longitude: MapView.longitude, zoom: 15)
+
         if mapView.isHidden {
             mapView.isHidden = false
             mapView.camera = camera
+            locationManager.stopUpdatingLocation()
         } else {
             mapView.animate(to: camera)
+            locationManager.stopUpdatingLocation()
         }
     }
     

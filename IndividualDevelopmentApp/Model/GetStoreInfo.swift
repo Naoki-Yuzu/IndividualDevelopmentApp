@@ -14,12 +14,13 @@ class GetStoreInfo {
     let db = Firestore.firestore()
     
     // MARK: - Methods
-    func getStoreInfo(completion: @escaping (_ snapShot: QuerySnapshot) -> Void) {
+    func getStoreInfo(ifError: @escaping () -> Void, completion: @escaping (_ snapShot: QuerySnapshot) -> Void) {
         let collRef = db.collection("Stores")
         collRef.getDocuments { [weak self] (snapShot, error) in
             if let _ = self {
 
                 if error != nil {
+                    ifError()
                     print("could not get store data..")
                 } else {
                     guard let unwrappedSnapShot = snapShot else { return }
