@@ -230,8 +230,11 @@ extension MapViewController: GMSMapViewDelegate {
         storeModel.getPostUserInfo(userId: userId) { [weak self] (snapShot) in
             if let self = self {
                 if snapShot.data() == nil {
+                    print("data is nil..")
                     MapViewController.postUserName = "名無しさん"
+                    MapViewController.postUserIcon = "profile_icon"
                 } else {
+                    print("data is not nil..")
                     let userInfo = snapShot.data()
                     guard let postUserName = userInfo!["userName"] as? String, let postUserIcon = userInfo!["userImage"] as? String else { return }
                     MapViewController.postUserName = postUserName

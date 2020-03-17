@@ -75,26 +75,30 @@ class StoreDetailViewController: UIViewController {
         storeDetailView = StoreDetailView()
         storeDetailView.backgroundColor = UIColor(red: 162/255, green: 99/255, blue: 24/255, alpha: 1)
         let storeImageURL = URL(string: storeImage)
-        if let unwrapedPostUserIcon = MapViewController.postUserIcon {
-            let userIconURL = URL(string: unwrapedPostUserIcon)
-            if let unwrapedUserIconURL = userIconURL {
-                do {
-                    let storeImageData = try Data(contentsOf: storeImageURL!)
-                    let userIconData = try Data(contentsOf: unwrapedUserIconURL)
-                    self.storeDetailView.storeImageView.image = UIImage(data: storeImageData)
-                    self.storeDetailView.postUserIcon.image = UIImage(data: userIconData)
-                    print("did set user image from database..")
-                } catch _ {
-                    print("error..")
-                }
+        guard let unwrappedStoreImageURL = storeImageURL else { return }
+        
+        if MapViewController.postUserIcon == "profile_icon" {
+            
+            do {
+                let storeImageData = try Data(contentsOf: unwrappedStoreImageURL)
+                self.storeDetailView.storeImageView.image = UIImage(data: storeImageData)
+                self.storeDetailView.postUserIcon.image = UIImage(named: "profile_icon")
+                print("did set user image from database..")
+            } catch _ {
+                print("error..")
             }
             
         } else {
-            
+                
+            guard let unwrappedPostUserIcon = MapViewController.postUserIcon else { return }
+           
+            let userIconURL = URL(string: unwrappedPostUserIcon)
+            guard let unwrappedUserIconURL = userIconURL else { return }
             do {
-                let storeImageData = try Data(contentsOf: storeImageURL!)
+                let storeImageData = try Data(contentsOf: unwrappedStoreImageURL)
+                let userIconData = try Data(contentsOf: unwrappedUserIconURL)
                 self.storeDetailView.storeImageView.image = UIImage(data: storeImageData)
-                self.storeDetailView.postUserIcon.image = UIImage(named: "profile_icon")
+                self.storeDetailView.postUserIcon.image = UIImage(data: userIconData)
                 print("did set user image from database..")
             } catch _ {
                 print("error..")
