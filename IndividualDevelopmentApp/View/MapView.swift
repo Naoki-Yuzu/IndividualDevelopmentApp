@@ -51,9 +51,9 @@ class MapView: UIView {
     private func configureMap() {
         print("set up map..")
         // GoogleMapの初期位置(仮で東京駅付近に設定)
-        let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude, longitude: defaultLocation.coordinate.longitude, zoom: 16)
+        let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude, longitude: defaultLocation.coordinate.longitude, zoom: 15)
         mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
-        mapView.animate(toViewingAngle: 65)
+//        mapView.animate(toViewingAngle: 65)
         print("camera of map view \(mapView.camera)")
         mapView.isMyLocationEnabled = true
         mapView.settings.myLocationButton = true
@@ -118,14 +118,16 @@ extension MapView: CLLocationManagerDelegate {
         MapView.latitude = location?.coordinate.latitude
         MapView.longitude = location?.coordinate.longitude
         print("latitude\(MapView.latitude!)\nlongitude\(MapView.longitude!)")
-        
-        let camera = GMSCameraPosition.camera(withLatitude: MapView.latitude, longitude: MapView.longitude, zoom: 16)
-        
+
+        let camera = GMSCameraPosition.camera(withLatitude: MapView.latitude, longitude: MapView.longitude, zoom: 15)
+
         if mapView.isHidden {
             mapView.isHidden = false
             mapView.camera = camera
+            locationManager.stopUpdatingLocation()
         } else {
             mapView.animate(to: camera)
+            locationManager.stopUpdatingLocation()
         }
     }
     

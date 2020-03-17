@@ -119,7 +119,6 @@ class MapViewController: UIViewController {
 
                     }
                 
-                print("kokodayo")
                 self.mapView.isUserInteractionEnabled = true
                 self.translucentView.isHidden = true
                 self.activityIndicatorView.stopAnimating()
