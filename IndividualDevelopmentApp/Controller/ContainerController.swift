@@ -103,6 +103,7 @@ class ContainerController: UIViewController {
             mapViewController.mapView.isUserInteractionEnabled = true
             mapViewController.view.isUserInteractionEnabled = true
             let registerRestaurantViewController = RegisterRestaurantViewController()
+            registerRestaurantViewController.delegete = mapViewController!
             let navRegisterRestaurantViewController = UINavigationController(rootViewController: registerRestaurantViewController)
             navRegisterRestaurantViewController.modalPresentationStyle = .fullScreen
             present(navRegisterRestaurantViewController, animated: true, completion: nil)

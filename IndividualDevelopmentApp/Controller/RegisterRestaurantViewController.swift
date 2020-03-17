@@ -8,12 +8,17 @@
 
 import UIKit
 
+protocol RegisterRestaurantViewControllerDelegate {
+    func configureNewMarker(longitude: Double, latitude: Double, storeImage: String, storeName: String, storeImpression: String, userId: String)
+}
+
 class RegisterRestaurantViewController: UIViewController {
     
     // MARK: - Properties
     let storeModel = RegisterStore()
     let textFieldMaxString = 20
     let textViewMaxString = 100
+    var delegete: RegisterRestaurantViewControllerDelegate?
     var textFieldCountRemaining: Int!
     var textViewCountRemaining: Int!
     var activityIndicatorView: UIActivityIndicatorView!
@@ -132,7 +137,7 @@ class RegisterRestaurantViewController: UIViewController {
             print("error")
         } else {
             guard let unwrappedLongitude = longitude, let unwrappedLatitude = latitude else { return }
-            storeModel.registerStrore(storeImage: registerRestaurantView.storeImage.image!, storeName: registerRestaurantView.storeNameTextField.text!, storeImpression: registerRestaurantView.impressionTextView.text, longitude: unwrappedLongitude, latitude: unwrappedLatitude) {
+            storeModel.registerStrore(storeImage: registerRestaurantView.storeImage.image!, storeName: registerRestaurantView.storeNameTextField.text!, storeImpression: registerRestaurantView.impressionTextView.text, longitude: unwrappedLongitude, latitude: unwrappedLatitude) { (urlString, userId) in
                 print("did finish..")
                 self.activityIndicatorView.stopAnimating()
                 self.registerRestaurantView.impressionTextView.isUserInteractionEnabled = true
@@ -140,7 +145,9 @@ class RegisterRestaurantViewController: UIViewController {
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
                 self.navigationItem.leftBarButtonItem?.isEnabled = true
                 self.registerRestaurantView.storeImage.isUserInteractionEnabled = true
-                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: {
+                    self.delegete?.configureNewMarker(longitude: unwrappedLongitude, latitude: unwrappedLatitude, storeImage: urlString, storeName: self.registerRestaurantView.storeNameTextField.text!, storeImpression: self.registerRestaurantView.impressionTextView.text, userId: userId)
+                })
             }
         }
     }
