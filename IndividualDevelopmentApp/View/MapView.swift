@@ -57,6 +57,7 @@ class MapView: UIView {
         print("camera of map view \(mapView.camera)")
         mapView.isMyLocationEnabled = true
         mapView.settings.myLocationButton = true
+        mapView.settings.compassButton = true
         self.addSubview(mapView)
         mapView.isHidden = true
         
