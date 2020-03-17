@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 protocol RegisterRestaurantViewControllerDelegate {
     func configureNewMarker(longitude: Double, latitude: Double, storeImage: String, storeName: String, storeImpression: String, userId: String)
@@ -84,13 +85,33 @@ class RegisterRestaurantViewController: UIViewController {
     }
     
     func configureImagePicker() {
-           
-           print("configure image picker..")
-           let imagePicker = UIImagePickerController()
-           imagePicker.delegate = self
-           imagePicker.allowsEditing = true
-           imagePicker.sourceType = .photoLibrary
-           present(imagePicker, animated: true, completion: nil)
+        
+        if PHPhotoLibrary.authorizationStatus() != .authorized {
+            PHPhotoLibrary.requestAuthorization { (status) in
+                if status != .authorized {
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: nil, message: "端末の[設定]>[プライバシー]>[写真]で写真へのアクセスを許可してください", preferredStyle: .alert)
+                        let settingsAction = UIAlertAction(title: "設定", style: .default, handler: { (_) -> Void in
+                            guard let settingsURL = URL(string: UIApplication.openSettingsURLString ) else {
+                                return
+                            }
+                            UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+                        })
+                        let closeAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: nil)
+                        alert.addAction(settingsAction)
+                        alert.addAction(closeAction)
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                }
+                    }
+        } else {
+            print("configure image picker..")
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = .photoLibrary
+            self.present(imagePicker, animated: true, completion: nil)
+        }
            
     }
     
