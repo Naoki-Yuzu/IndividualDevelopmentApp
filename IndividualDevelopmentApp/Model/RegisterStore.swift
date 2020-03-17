@@ -22,7 +22,7 @@ class RegisterStore {
         
         guard let user = Auth.auth().currentUser else { return }
         userId = user.uid
-        guard let uploadData = storeImage.jpegData(compressionQuality: 0.9) else { return }
+        guard let uploadData = storeImage.jpegData(compressionQuality: 0.1) else { return }
         
         metaData.contentType = "image/jpg"
         

@@ -21,7 +21,7 @@ class UserProfile {
     func uploadUserProfileImage(withUIImage image: UIImage, completion: @escaping () -> Void) {
         
         guard let user = Auth.auth().currentUser else { return }
-        guard let uploadData = image.jpegData(compressionQuality: 0.9) else { return }
+        guard let uploadData = image.jpegData(compressionQuality: 0.1) else { return }
         
         userProfileImageFile = userProfileImageFolder.child("\(user.uid).jpg")
         print(userProfileImageFile as Any)
