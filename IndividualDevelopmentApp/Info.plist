@@ -8,6 +8,8 @@
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>現在地を表示するために位置情報を使用します</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>画像をアップロードするためにアルバムを使用します</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
