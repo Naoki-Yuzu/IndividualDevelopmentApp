@@ -20,50 +20,55 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let scene = (scene as? UIWindowScene) else { return }
         
-        if Auth.auth().currentUser != nil {
-                    
-            print("exists user..")
-            if Auth.auth().currentUser!.isEmailVerified {
-                
-                    print("is email verified")
-                    window = UIWindow(windowScene: scene)
-                    let navContainerController = UINavigationController(rootViewController: ContainerController())
-                    window?.rootViewController = navContainerController
-                    window?.makeKeyAndVisible()
-                
-                } else {
-                
-                    print("is not email verified")
-                    do {
-                    
-                        try Auth.auth().signOut()
-                        print("compulsion sign out..")
-                        print("scene delegate..")
-
-                        window = UIWindow(windowScene: scene)
-                        let signUpNavigationController = UINavigationController(rootViewController: SignUpController())
-                        window?.rootViewController = signUpNavigationController
-                        window?.makeKeyAndVisible()
-                    
-                    
-                    } catch let error {
-                    
-                        print(error.localizedDescription)
-                    
-                    }
-                
-                }
-                    
-                    
-            } else {
-                    
-                    print("no user..")
-                    window = UIWindow(windowScene: scene)
-                    let signUpNavigationController = UINavigationController(rootViewController: SignUpController())
-                    window?.rootViewController = signUpNavigationController
-                    window?.makeKeyAndVisible()
-                    
-                }
+        window = UIWindow(windowScene: scene)
+        let navContainerController = UINavigationController(rootViewController: ContainerController())
+        window?.rootViewController = navContainerController
+        window?.makeKeyAndVisible()
+        
+//        if Auth.auth().currentUser != nil {
+//
+//            print("exists user..")
+//            if Auth.auth().currentUser!.isEmailVerified {
+//
+//                    print("is email verified")
+//                    window = UIWindow(windowScene: scene)
+//                    let navContainerController = UINavigationController(rootViewController: ContainerController())
+//                    window?.rootViewController = navContainerController
+//                    window?.makeKeyAndVisible()
+//
+//                } else {
+//
+//                    print("is not email verified")
+//                    do {
+//
+//                        try Auth.auth().signOut()
+//                        print("compulsion sign out..")
+//                        print("scene delegate..")
+//
+//                        window = UIWindow(windowScene: scene)
+//                        let signUpNavigationController = UINavigationController(rootViewController: SignUpController())
+//                        window?.rootViewController = signUpNavigationController
+//                        window?.makeKeyAndVisible()
+//
+//
+//                    } catch let error {
+//
+//                        print(error.localizedDescription)
+//
+//                    }
+//
+//                }
+//
+//
+//            } else {
+//
+//                    print("no user..")
+//                    window = UIWindow(windowScene: scene)
+//                    let signUpNavigationController = UINavigationController(rootViewController: SignUpController())
+//                    window?.rootViewController = signUpNavigationController
+//                    window?.makeKeyAndVisible()
+//
+//                }
         
     }
 

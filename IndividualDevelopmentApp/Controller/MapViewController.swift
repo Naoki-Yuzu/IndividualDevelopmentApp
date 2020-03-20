@@ -51,6 +51,7 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("view did load..")
         storeName.removeAll()
         storeReview.removeAll()
         storeImage.removeAll()

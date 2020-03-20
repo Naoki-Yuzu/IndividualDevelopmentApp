@@ -10,6 +10,26 @@ import Firebase
 
 class SignUpUser {
     
+    func authenticationUser() -> Bool {
+        if Auth.auth().currentUser == nil {
+            print("authentication user false")
+            return false
+        } else {
+            print("authentication user true")
+            return true
+        }
+    }
+    
+    func confirmEmailVerified() -> Bool {
+        if Auth.auth().currentUser!.isEmailVerified {
+            print("本登録完了済み")
+            return true
+        } else {
+            print("本登録未完了")
+            return false
+        }
+    }
+    
     // ここクソむずいclosureむずい
     func signUpUser(withEmail email: String, password: String, errorMessage: @escaping (String) -> Void ,completion: @escaping () -> Void) {
         

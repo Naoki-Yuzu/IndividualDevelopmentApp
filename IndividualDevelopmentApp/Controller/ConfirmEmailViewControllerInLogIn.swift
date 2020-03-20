@@ -12,7 +12,7 @@ import UIKit
 class ConfirmEmailControllerInLogIn: UIViewController {
     
     // MARK: - Properties
-    var confirmEmailView = ConfirmEmailViewInLogIn()
+    var confirmEmailView: ConfirmEmailViewInLogIn!
     var confirmEmailModel = SignUpUser()
     var activityIndicatorView: UIActivityIndicatorView!
     var timer: Timer!
@@ -20,6 +20,7 @@ class ConfirmEmailControllerInLogIn: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        print("view did load in confirm email log in")
         configureView()
         configureIndicatorView()
     }
@@ -32,6 +33,7 @@ class ConfirmEmailControllerInLogIn: UIViewController {
     
     // MARK: - Helper Functions
     func configureView() {
+        confirmEmailView = ConfirmEmailViewInLogIn()
         navigationController?.isNavigationBarHidden = true
         view.backgroundColor = .white
         view.addSubview(confirmEmailView)
