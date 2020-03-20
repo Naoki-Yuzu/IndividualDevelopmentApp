@@ -32,6 +32,7 @@ class ConfirmEmailViewInLogIn: UIView {
         super.init(frame: CGRect())
         
         self.backgroundColor = .white
+        print("こんちゃ")
         titleLabel = OriginalLabel(textOfLabel: "ご本人様確認", textColor: .black, fontAndSize: .boldSystemFont(ofSize: 20))
         titleLabel.textAlignment = .center
         
@@ -49,6 +50,8 @@ class ConfirmEmailViewInLogIn: UIView {
         addSubview(descriptionLabel)
         addSubview(resendEmailButton)
         addSubview(completedRegistrationButton)
+        
+        configureUIPosition()
     }
     
     required init?(coder: NSCoder) {
@@ -56,9 +59,9 @@ class ConfirmEmailViewInLogIn: UIView {
     }
     
     // MARK: - Helper Function
-    override func updateConstraints() {
-        super.updateConstraints()
+    func configureUIPosition() {
         
+        print("original constrains")
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         resendEmailButton.translatesAutoresizingMaskIntoConstraints = false

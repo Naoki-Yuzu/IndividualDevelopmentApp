@@ -16,6 +16,7 @@ class ContainerController: UIViewController {
     var mapViewController: MapViewController!
     var isExpansion = false
     let signOutUser = SignOutUser()
+    let authenticationUser = SignUpUser()
     
     // MARK: - Helper Functions
     
@@ -92,31 +93,134 @@ class ContainerController: UIViewController {
     func didSelectSideMenuOption(sideMenuOption: SideMenuOption) {
         switch sideMenuOption {
         case .Profile:
-            mapViewController.mapView.reloadMapButton.isEnabled = true
-            mapViewController.mapView.isUserInteractionEnabled = true
-            mapViewController.view.isUserInteractionEnabled = true
-            let navProfileViewController = UINavigationController(rootViewController: ProfileViewController())
-            navProfileViewController.modalPresentationStyle = .fullScreen
-            present(navProfileViewController, animated: true, completion: nil)
+            if authenticationUser.authenticationUser() {
+                
+                mapViewController.mapView.reloadMapButton.isEnabled = true
+                mapViewController.mapView.isUserInteractionEnabled = true
+                mapViewController.view.isUserInteractionEnabled = true
+                
+                switch authenticationUser.confirmEmailVerified() {
+                case true:
+                    let navProfileViewController = UINavigationController(rootViewController: ProfileViewController())
+                    navProfileViewController.modalPresentationStyle = .fullScreen
+                    present(navProfileViewController, animated: true, completion: nil)
+                    break
+                case false :
+                    let navConfirmEmailLogInController = UINavigationController(rootViewController: ConfirmEmailControllerInLogIn())
+                    navConfirmEmailLogInController.modalPresentationStyle = .fullScreen
+                    present(navConfirmEmailLogInController, animated: true, completion: nil)
+                    break
+                }
+                
+                
+                
+                
+            } else {
+                
+                mapViewController.mapView.reloadMapButton.isEnabled = true
+                mapViewController.mapView.isUserInteractionEnabled = true
+                mapViewController.view.isUserInteractionEnabled = true
+                UIViewController.displayAlertOfAlertStyle(viewController: self, title: "メッセージ", message: "新規アカウントの作成、またはログインが必要です。", rightActionCompletion: {
+                    
+                    let navSignUpController = UINavigationController(rootViewController: SignUpController())
+                    navSignUpController.modalPresentationStyle = .fullScreen
+                    self.present(navSignUpController, animated: true, completion: nil)
+                    
+                }, leftActionCompletion: nil)
+                
+            }
+            
         case .Register:
-            mapViewController.mapView.reloadMapButton.isEnabled = true
-            mapViewController.mapView.isUserInteractionEnabled = true
-            mapViewController.view.isUserInteractionEnabled = true
-            let registerRestaurantViewController = RegisterRestaurantViewController()
-            registerRestaurantViewController.delegete = mapViewController!
-            let navRegisterRestaurantViewController = UINavigationController(rootViewController: registerRestaurantViewController)
-            navRegisterRestaurantViewController.modalPresentationStyle = .fullScreen
-            present(navRegisterRestaurantViewController, animated: true, completion: nil)
+            if authenticationUser.authenticationUser() {
+                
+                mapViewController.mapView.reloadMapButton.isEnabled = true
+                mapViewController.mapView.isUserInteractionEnabled = true
+                mapViewController.view.isUserInteractionEnabled = true
+                
+                switch authenticationUser.confirmEmailVerified() {
+                case true:
+                    print("本人登録確認済みよ")
+                    let registerRestaurantViewController = RegisterRestaurantViewController()
+                    registerRestaurantViewController.delegete = mapViewController!
+                    let navRegisterRestaurantViewController = UINavigationController(rootViewController: registerRestaurantViewController)
+                    navRegisterRestaurantViewController.modalPresentationStyle = .fullScreen
+                    present(navRegisterRestaurantViewController, animated: true, completion: nil)
+                    break
+                case false :
+                    let navConfirmEmailLogInController = UINavigationController(rootViewController: ConfirmEmailControllerInLogIn())
+                    navConfirmEmailLogInController.modalPresentationStyle = .fullScreen
+                    present(navConfirmEmailLogInController, animated: true, completion: nil)
+                    break
+                }
+                
+            } else {
+                
+                mapViewController.mapView.reloadMapButton.isEnabled = true
+                mapViewController.mapView.isUserInteractionEnabled = true
+                mapViewController.view.isUserInteractionEnabled = true
+                UIViewController.displayAlertOfAlertStyle(viewController: self, title: "メッセージ", message: "新規アカウントの作成、またはログインが必要です。", rightActionCompletion: {
+                    
+                    let navSignUpController = UINavigationController(rootViewController: SignUpController())
+                    navSignUpController.modalPresentationStyle = .fullScreen
+                    self.present(navSignUpController, animated: true, completion: nil)
+                    
+                }, leftActionCompletion: nil)
+                
+            }
         case .Signout:
-            mapViewController.mapView.reloadMapButton.isEnabled = true
-            mapViewController.mapView.isUserInteractionEnabled = true
-            mapViewController.view.isUserInteractionEnabled = true
-            SignOutAlert()
+            
+            if authenticationUser.authenticationUser() {
+                
+                mapViewController.mapView.reloadMapButton.isEnabled = true
+                mapViewController.mapView.isUserInteractionEnabled = true
+                mapViewController.view.isUserInteractionEnabled = true
+                SignOutAlert()
+                
+            } else {
+                
+                mapViewController.mapView.reloadMapButton.isEnabled = true
+                mapViewController.mapView.isUserInteractionEnabled = true
+                mapViewController.view.isUserInteractionEnabled = true
+                UIViewController.displayAlertOfAlertStyle(viewController: self, title: "メッセージ", message: "新規アカウントの作成、またはログインが必要です。", rightActionCompletion: {
+                    
+                    let navSignUpController = UINavigationController(rootViewController: SignUpController())
+                    navSignUpController.modalPresentationStyle = .fullScreen
+                    self.present(navSignUpController, animated: true, completion: nil)
+                    
+                }, leftActionCompletion: nil)
+                
+            }
+
+//            mapViewController.mapView.reloadMapButton.isEnabled = true
+//            mapViewController.mapView.isUserInteractionEnabled = true
+//            mapViewController.view.isUserInteractionEnabled = true
+//            SignOutAlert()
         case .Delete:
-            mapViewController.mapView.reloadMapButton.isEnabled = true
-            mapViewController.mapView.isUserInteractionEnabled = true
-            mapViewController.view.isUserInteractionEnabled = true
-            deleteAccountAlert()
+            if authenticationUser.authenticationUser() {
+                
+                mapViewController.mapView.reloadMapButton.isEnabled = true
+                mapViewController.mapView.isUserInteractionEnabled = true
+                mapViewController.view.isUserInteractionEnabled = true
+                deleteAccountAlert()
+                
+            } else {
+                
+                mapViewController.mapView.reloadMapButton.isEnabled = true
+                mapViewController.mapView.isUserInteractionEnabled = true
+                mapViewController.view.isUserInteractionEnabled = true
+                UIViewController.displayAlertOfAlertStyle(viewController: self, title: "メッセージ", message: "新規アカウントの作成、またはログインが必要です。", rightActionCompletion: {
+                    
+                    let navSignUpController = UINavigationController(rootViewController: SignUpController())
+                    navSignUpController.modalPresentationStyle = .fullScreen
+                    self.present(navSignUpController, animated: true, completion: nil)
+                    
+                }, leftActionCompletion: nil)
+                
+            }
+//            mapViewController.mapView.reloadMapButton.isEnabled = true
+//            mapViewController.mapView.isUserInteractionEnabled = true
+//            mapViewController.view.isUserInteractionEnabled = true
+//            deleteAccountAlert()
         }
         
     }
@@ -126,7 +230,12 @@ class ContainerController: UIViewController {
         let alertController = UIAlertController(title: "メッセージ", message: "本当にログアウトしてもよろしいですか？", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: {(_) in
             self.signOutUser.signOutUser {
-                self.navigationController?.pushViewController(SignUpController(), animated: true)
+//                self.navigationController?.pushViewController(SignUpController(), animated: true)
+                UIViewController.displayAlertOfAlertStyle(viewController: self, title: "メッセージ", message: "ログアウトしました", rightActionCompletion: {
+                        self.mapViewController.mapView.isUserInteractionEnabled = true
+                        self.mapViewController.mapView.sideMenuButton.isEnabled = true
+                        self.mapViewController.mapView.reloadMapButton.isEnabled = true
+                }, leftActionTitle: nil ,leftActionCompletion: nil)
             }
         }))
         alertController.addAction(UIAlertAction(title: "キャンセル", style: .default, handler: nil))
@@ -162,10 +271,11 @@ class ContainerController: UIViewController {
                 
                 let alertController = UIAlertController(title: "メッセージ", message: "アカウントを削除しました", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
-                    self.navigationController?.pushViewController(SignUpController(), animated: true)
-                    self.mapViewController.mapView.isUserInteractionEnabled = true
-                    self.mapViewController.mapView.sideMenuButton.isEnabled = true
-                    self.mapViewController.mapView.reloadMapButton.isEnabled = true
+                    UIViewController.displayAlertOfAlertStyle(viewController: self, title: "メッセージ", message: "アカウントの削除が完了しました", rightActionCompletion: {
+                            self.mapViewController.mapView.isUserInteractionEnabled = true
+                            self.mapViewController.mapView.sideMenuButton.isEnabled = true
+                            self.mapViewController.mapView.reloadMapButton.isEnabled = true
+                        }, leftActionTitle: nil ,leftActionCompletion: nil)
                 }))
                 
                 self.present(alertController, animated: true, completion: nil)
